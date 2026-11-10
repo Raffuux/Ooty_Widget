@@ -83,6 +83,17 @@ ol.ex li::before{content:counter(ex);grid-row:span 3;font-family:var(--f-display
 ol.ex .nm{font-weight:600}
 ol.ex .ds{font-family:var(--f-mono);font-size:13px;color:var(--accent)}
 ol.ex .hw{font-size:14px;color:var(--muted)}
+.nn{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.nn li{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.nn li::before{content:"□";color:var(--accent);margin-right:2px}
+.nn li span:first-child{flex:1;min-width:0}
+.nn .ds{font-family:var(--f-mono);font-size:13px;color:var(--accent);white-space:nowrap}
+.intro{margin:0 0 10px;color:var(--muted);font-size:15px}
+.tbl{overflow-x:auto;padding:0 18px 12px}
+.tbl table{border-collapse:collapse;width:100%;font-size:14px}
+.tbl th,.tbl td{text-align:left;vertical-align:top;padding:6px 8px 6px 0;border-top:1px solid var(--line)}
+.tbl thead th{font-family:var(--f-display);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-size:13px;border-top:0}
+.tbl tbody th{font-weight:600}
 .rule{font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
 .empty{color:var(--muted);font-style:italic}
 .week{padding:14px 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -133,6 +144,12 @@ nav.days button .bar{background:var(--t,var(--repos))}
   <section>
     <h3>Ta semaine</h3>
     <div class="card"><div class="week" id="week"></div></div>
+  </section>
+
+  <section id="coach-wrap">
+    <h3>Le plan du coach</h3>
+    <p class="intro" id="coach-intro"></p>
+    <div class="card adapt" id="coach"></div>
   </section>
 
   <section>
@@ -205,7 +222,19 @@ function parseSheets(sheets, source, updated){
     if (r[0]==='Exercice' || r[0]==='Test') { if (cur) cur.header = r; continue; }
     if (cur) cur.items.push({name:r[0], how:r[1], dose:r[2], why:r[3]});
   }
-  return {days, lib, adapt, mob, source, updated};
+  // Coach: a single-cell row followed by a table row is a section title; other single-cell rows are notes
+  const coach = {intro:[], sections:[]}; let cs = null;
+  const crow = (sheets['Coach']||[]).filter(r => r && !r.every(empty));
+  crow.forEach((r,i) => {
+    const single = !empty(r[0]) && r.slice(1).every(empty);
+    const next = crow[i+1];
+    if (i===0 && single) { coach.title = r[0]; return; }
+    if (single && next && !next.slice(1).every(empty)) { cs = {title:r[0], items:[], notes:[]}; coach.sections.push(cs); return; }
+    if (single) { (cs ? cs.notes : coach.intro).push(r[0]); return; }
+    if (cs && !cs.header && (r[0]==='Quoi' || r[0]==='Jour')) { cs.header = r; return; }
+    if (cs) cs.items.push(r.slice(0,3));
+  });
+  return {days, lib, adapt, mob, coach, source, updated};
 }
 const EMBED = parseSheets(EMBED_RAW.sheets, EMBED_RAW.source, EMBED_RAW.updated);
 let DATA = EMBED, FROM_IMPORT = false;
@@ -302,10 +331,14 @@ function renderDay(d){
   if (d.salle) html += row('Salle', d.salle, 'salle');
   if (d.routine) html += row('Routine', d.routine, 'routine');
   // Daily mobility routine, every evening, unless the Routine column already is the mobility routine
-  const daily = mobSection(/quotidienne/i);
-  if (daily && !/mobilit/i.test(d.routine||'')) {
-    html += `<div class="row"><div class="lbl">Le soir</div><div class="val"><div class="txt">${esc(daily.title.replace(/\s*:.*$/,''))}</div>
-      <details class="how"><summary>Les ${daily.items.length} exercices</summary><div class="body">${exList(daily)}${DATA.mob.rules ? `<p class="rule">${esc(DATA.mob.rules)}</p>` : ''}</div></details></div></div>`;
+  const dmob = mobSection(/quotidienne/i);
+  if (dmob && !/mobilit/i.test(d.routine||'')) {
+    html += `<div class="row"><div class="lbl">Le soir</div><div class="val"><div class="txt">${esc(dmob.title.replace(/\s*:.*$/,''))}</div>
+      <details class="how"><summary>Les ${dmob.items.length} exercices</summary><div class="body">${exList(dmob)}${DATA.mob.rules ? `<p class="rule">${esc(DATA.mob.rules)}</p>` : ''}</div></details></div></div>`;
+  }
+  const daily = (DATA.coach.sections||[]).find(s => /tous les jours/i.test(s.title));
+  if (daily && daily.items.length) {
+    html += `<div class="row"><div class="lbl">Non négociable</div><div class="val"><ul class="nn">${daily.items.map(i => `<li><span>${esc(i[0])}</span>${empty(i[1]) || i[1]==='-' ? '' : `<span class="ds">${esc(i[1])}</span>`}</li>`).join('')}</ul></div></div>`;
   }
   const tests = mobSection(/^tests?/i);
   if (tests && firstSaturday(d.date)) {
@@ -328,6 +361,18 @@ function renderWeek(){
     <div class="stat"><div class="v mono">${done}<small> / ${sessions.length}</small></div><div class="l">jours cochés « Fait »</div></div>
     <div class="stat"><div class="v mono">${hard+sout}</div><div class="l">qualité : ${hard} dure, ${sout} soutenue</div></div>
     <div class="progress" role="img" aria-label="${pct} % du volume réalisé"><i style="width:${pct}%"></i></div>`;
+}
+function renderCoach(){
+  const c = DATA.coach || {sections:[]};
+  const secs = c.sections.filter(s => !/tous les jours/i.test(s.title));
+  $('coach-wrap').hidden = !secs.length;
+  $('coach-intro').textContent = c.intro.join(' ');
+  $('coach').innerHTML = secs.map(s => {
+    const two = s.items.every(i => empty(i[2]));
+    const rows = s.items.map(i => `<tr><th scope="row">${esc(i[0])}</th><td>${esc(i[1] ?? '')}</td>${two ? '' : `<td>${esc(i[2] ?? '')}</td>`}</tr>`).join('');
+    const head = s.header ? `<thead><tr>${s.header.slice(0, two ? 2 : 3).map(h => `<th scope="col">${esc(h ?? '')}</th>`).join('')}</tr></thead>` : '';
+    return `<details ${/semaine type/i.test(s.title) ? 'open' : ''}><summary>${esc(s.title)}</summary><div class="tbl"><table>${head}<tbody>${rows}</tbody></table></div>${s.notes.map(n => `<p>${esc(n)}</p>`).join('')}</details>`;
+  }).join('');
 }
 function renderAdapt(){
   $('adapt').innerHTML = (DATA.adapt||[]).map(a => `<details><summary>${esc(a.sit)}</summary><p>${esc(a.todo)}</p></details>`).join('');
@@ -352,20 +397,20 @@ $('file').addEventListener('change', async e => {
     if (typeof XLSX === 'undefined') throw new Error("Le lecteur Excel n'a pas pu se charger. Réessaie avec une connexion.");
     const wb = XLSX.read(await f.arrayBuffer(), {type:'array'});
     const sheets = {};
-    ['Calendrier','Séances','Mobilité','Vacances & imprévus'].forEach(n => { if (wb.Sheets[n]) sheets[n] = XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:true, defval:null}); });
+    ['Coach','Calendrier','Séances','Mobilité','Vacances & imprévus'].forEach(n => { if (wb.Sheets[n]) sheets[n] = XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:true, defval:null}); });
     const raw = {sheets, source: f.name, updated: iso(new Date())};
     DATA = parseSheets(raw.sheets, raw.source, raw.updated); FROM_IMPORT = true; index();
     try { localStorage.setItem(LS, JSON.stringify(raw)); } catch(err){}
     msg.textContent = `${DATA.days.length} jours chargés depuis ${f.name}.`;
-    renderAdapt(); renderFooter(); render();
+    renderCoach(); renderAdapt(); renderFooter(); render();
   } catch(err){ msg.className = 'msg err'; msg.textContent = err.message; }
   e.target.value = '';
 });
 $('reset').onclick = () => {
   try { localStorage.removeItem(LS); } catch(e){}
-  DATA = EMBED; FROM_IMPORT = false; index(); renderAdapt(); renderFooter(); render();
+  DATA = EMBED; FROM_IMPORT = false; index(); renderCoach(); renderAdapt(); renderFooter(); render();
   $('msg').textContent = 'Retour à la version publiée du plan.';
 };
 
-index(); renderAdapt(); renderFooter(); render();
+index(); renderCoach(); renderAdapt(); renderFooter(); render();
 </script>

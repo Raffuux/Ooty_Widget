@@ -31,7 +31,7 @@ with open(os.path.join(ASSETS, 'plan.json'), 'w') as f:
 
 # index.html: the dashboard page with the raw tabs embedded
 sheets = {n: [[cell(v) for v in r] for r in wb[n].iter_rows(values_only=True)]
-          for n in ['Calendrier', 'Séances', 'Mobilité', 'Vacances & imprévus'] if n in wb.sheetnames}
+          for n in ['Coach', 'Calendrier', 'Séances', 'Mobilité', 'Vacances & imprévus'] if n in wb.sheetnames}
 data = json.dumps({'sheets': sheets, 'source': 'Planning_Ooty_2027.xlsx', 'updated': today}, ensure_ascii=False, separators=(',', ':'))
 tpl = open(os.path.join(ROOT, 'tools', 'template.html')).read()
 page = tpl.replace('/*DATA*/null/*END*/', '/*DATA*/' + data + '/*END*/')
