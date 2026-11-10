@@ -1,0 +1,372 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>footer .actions{display:none}</style></head><body><title>Programme Ooty</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one phone-width column, the day card is the hero; week strip like a bib of 7 days */
+:root{
+  --bg:#eef1ec; --surface:#fbfcf9; --ink:#17231f; --muted:#5d6b64; --line:#d5ddd6;
+  --accent:#1f6b52; --accent-soft:#dcebe3;
+  --dure:#c8372d; --dure-soft:#f7e0dd; --sout:#d9822b; --sout-soft:#f9e9d6;
+  --course:#a8833f; --course-soft:#f1e7d2; --vac:#3f8a4a; --vac-soft:#ddefdf;
+  --facile:#3a6f9a; --facile-soft:#dde8f2; --repos:#8a958f; --repos-soft:#e7ebe8;
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111815; --surface:#18221e; --ink:#e6ede9; --muted:#9aa8a1; --line:#2b3833;
+  --accent:#5cc49a; --accent-soft:#1d3a2f;
+  --dure:#ff7a6e; --dure-soft:#3d1f1c; --sout:#f2a65a; --sout-soft:#3a2a18;
+  --course:#d9b56d; --course-soft:#352d1c; --vac:#7bcf86; --vac-soft:#1e3522;
+  --facile:#7fb2dc; --facile-soft:#1c2c3a; --repos:#8d9893; --repos-soft:#222b28; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111815; --surface:#18221e; --ink:#e6ede9; --muted:#9aa8a1; --line:#2b3833;
+  --accent:#5cc49a; --accent-soft:#1d3a2f;
+  --dure:#ff7a6e; --dure-soft:#3d1f1c; --sout:#f2a65a; --sout-soft:#3a2a18;
+  --course:#d9b56d; --course-soft:#352d1c; --vac:#7bcf86; --vac-soft:#1e3522;
+  --facile:#7fb2dc; --facile-soft:#1c2c3a; --repos:#8d9893; --repos-soft:#222b28; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.05}
+.eyebrow{font-family:var(--f-display);font-weight:600;font-size:14px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+header{display:flex;flex-direction:column;gap:6px}
+header h1{font-size:44px;font-weight:700;text-transform:capitalize}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--muted);font-size:15px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-family:var(--f-display);font-weight:600;font-size:15px;letter-spacing:.03em;background:var(--accent-soft);color:var(--accent)}
+.countdowns{display:flex;flex-wrap:wrap;gap:8px}
+.cd{display:flex;align-items:baseline;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.cd b{font-family:var(--f-display);font-size:26px;font-weight:700;color:var(--course)}
+.cd span{font-size:14px;color:var(--muted)}
+.cd strong{font-family:var(--f-display);font-weight:600;font-size:16px;color:var(--ink);letter-spacing:.02em}
+nav.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+nav.days button{font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 0 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+nav.days button .d{font-family:var(--f-display);font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+nav.days button .n{font-family:var(--f-display);font-size:22px;font-weight:700;line-height:1}
+nav.days button .bar{width:60%;height:4px;border-radius:2px;background:var(--repos)}
+nav.days button .k{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+nav.days button[aria-current="date"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+nav.days button.today .n{color:var(--accent)}
+nav.days button.done .n::after{content:"✓";font-size:12px;color:var(--accent);margin-left:2px;vertical-align:top}
+nav.days button:focus-visible,.btn:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.weeknav{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.btn{font:inherit;font-family:var(--f-display);font-weight:600;font-size:16px;letter-spacing:.03em;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.run{padding:18px 18px 16px;border-left:6px solid var(--t);background:linear-gradient(90deg,var(--t-soft),transparent 70%)}
+.run .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.pill{font-family:var(--f-display);font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:2px 10px;border-radius:6px;background:var(--t);color:var(--surface)}
+.run h2{font-size:30px;font-weight:600;margin-top:10px}
+.run .km{font-family:var(--f-display);font-size:18px;color:var(--muted)}
+.run .km b{font-size:30px;color:var(--ink);font-weight:700}
+.done-banner{margin-top:10px;font-size:15px;color:var(--accent);font-weight:600}
+.rows{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:14px 18px;border-top:1px solid var(--line);align-items:start}
+.row .lbl{font-family:var(--f-display);font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.row .val{min-width:0;display:flex;flex-direction:column;gap:6px}
+.row .val > .txt{font-weight:500}
+.row.event .val > .txt{font-family:var(--f-display);font-size:20px;font-weight:700;color:var(--course);letter-spacing:.02em}
+details.how{border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+details.how summary{cursor:pointer;padding:6px 10px;font-size:14px;color:var(--accent);font-weight:600;list-style:none}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary::before{content:"+ ";font-family:var(--f-mono)}
+details.how[open] summary::before{content:"− "}
+details.how .body{padding:0 12px 10px;font-size:15px;display:flex;flex-direction:column;gap:6px}
+details.how .body p{margin:0}
+details.how .why{color:var(--muted);font-size:14px}
+ol.ex{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;counter-reset:ex}
+ol.ex li{display:grid;grid-template-columns:24px 1fr;gap:2px 8px;counter-increment:ex}
+ol.ex li::before{content:counter(ex);grid-row:span 3;font-family:var(--f-display);font-weight:700;font-size:18px;color:var(--accent);line-height:1.3}
+ol.ex .nm{font-weight:600}
+ol.ex .ds{font-family:var(--f-mono);font-size:13px;color:var(--accent)}
+ol.ex .hw{font-size:14px;color:var(--muted)}
+.rule{font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.empty{color:var(--muted);font-style:italic}
+.week{padding:14px 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat .v{font-family:var(--f-display);font-size:28px;font-weight:700;line-height:1.1}
+.stat .v small{font-size:16px;color:var(--muted);font-weight:500}
+.stat .l{font-size:13px;color:var(--muted)}
+.progress{grid-column:1/-1;height:8px;border-radius:4px;background:var(--repos-soft);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);border-radius:4px}
+section > h3{font-size:22px;font-weight:600;margin-bottom:8px}
+.adapt{display:flex;flex-direction:column}
+.adapt details{border-top:1px solid var(--line)}
+.adapt details:first-child{border-top:0}
+.adapt summary{cursor:pointer;padding:12px 18px;font-weight:600}
+.adapt p{margin:0;padding:0 18px 14px;color:var(--muted)}
+footer{display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+footer .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.msg{font-size:14px}
+.msg.err{color:var(--dure)}
+.t-Dure{--t:var(--dure);--t-soft:var(--dure-soft)}
+.t-Soutenue{--t:var(--sout);--t-soft:var(--sout-soft)}
+.t-COURSE{--t:var(--course);--t-soft:var(--course-soft)}
+.t-Vacances{--t:var(--vac);--t-soft:var(--vac-soft)}
+.t-Facile,.t-Longue{--t:var(--facile);--t-soft:var(--facile-soft)}
+.t-Repos{--t:var(--repos);--t-soft:var(--repos-soft)}
+nav.days button .bar{background:var(--t,var(--repos))}
+@media (max-width:420px){header h1{font-size:36px}.run h2{font-size:25px}.row{grid-template-columns:1fr;gap:4px}nav.days button .n{font-size:19px}nav.days button .k{display:none}}
+@media (prefers-reduced-motion:no-preference){.card{transition:opacity .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow" id="hdr-eyebrow">Aujourd'hui</div>
+    <h1 id="hdr-date">—</h1>
+    <div class="meta" id="hdr-meta"></div>
+  </header>
+
+  <div class="countdowns" id="countdowns"></div>
+
+  <div class="weeknav">
+    <button class="btn" id="prev" type="button" aria-label="Jour précédent">‹ Veille</button>
+    <button class="btn primary" id="todayBtn" type="button">Aujourd'hui</button>
+    <button class="btn" id="next" type="button" aria-label="Jour suivant">Lendemain ›</button>
+  </div>
+  <nav class="days" id="days" aria-label="Semaine"></nav>
+
+  <article class="card" id="daycard"></article>
+
+  <section>
+    <h3>Ta semaine</h3>
+    <div class="card"><div class="week" id="week"></div></div>
+  </section>
+
+  <section>
+    <h3>Si la journée ne se passe pas comme prévu</h3>
+    <div class="card adapt" id="adapt"></div>
+  </section>
+
+  <footer>
+    <div id="srcline"></div>
+    <div class="actions">
+      <label class="btn" for="file">Charger une nouvelle version de l'Excel</label>
+      <input type="file" id="file" accept=".xlsx,.xls" hidden>
+      <button class="btn" id="reset" type="button" hidden>Revenir au plan d'origine</button>
+    </div>
+    <div class="msg" id="msg" role="status"></div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const EMBED_RAW = /*DATA*/{"sheets":{"Calendrier":[["Planning jour par jour jusqu'à Ooty (2 nov 2026 → 21 mars 2027)",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["Colonnes jaunes à remplir. Couleurs : rouge = séance dure, orange = séance soutenue, sable = course, vert = vacances/trek. Les détails des séances sont dans l'onglet « Séances », et les règles pour les vacances dans « Vacances & imprévus ». Routine mobilité de 12' tous les soirs (onglet « Mobilité »), en plus de ce qui est écrit dans la colonne Routine.",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["Date","Jour","Sem.","Phase","Course à pied","Km cible","Type","Kickboxing","Salle","Routine","Événement","Fait ?","Km réalisé","D+ réalisé","Tibias (/10)","Ressenti"],["2026-11-02","Lundi",1,"Reprise","Retour de voyage",0,"Repos course",null,null,null,null,null,null,null,null,null],["2026-11-03","Mardi",1,"Reprise","Reprise : 17 min très facile (fait)",3,"Facile","Kickboxing (fait)","Muscu 56 min",null,null,"✓",3.1,0,0,null],["2026-11-04","Mercredi",1,"Reprise","Pas de course",0,"Repos course",null,"Muscu 56 min","Corde 5 min (511 sauts) + Tibias",null,null,null,null,null,null],["2026-11-05","Jeudi",1,"Reprise","Footing 23 min très facile",4,"Facile","Kickboxing (fait)","Haut du corps","Bassin",null,"✓",3.8,0,null,null],["2026-11-06","Vendredi",1,"Reprise","Pas de course",0,"Repos course","Kickboxing (fait)",null,null,null,null,null,null,null,null],["2026-11-07","Samedi",1,"Reprise","Pas de course (3 courses prévues cette semaine)",0,"Repos course",null,"Jambes trail (2 séries, léger)","Étirements",null,null,null,null,null,null],["2026-11-08","Dimanche",1,"Reprise","Footing 30-35 min facile",5.5,"Facile",null,null,"Tibias","+ Elliptique fractionné 28 min","✓",5,0,null,null],["2026-11-09","Lundi",2,"Reprise","Footing 25 min facile",4,"Facile","Kickboxing 1h15 (fait) : étirements au début, low kicks + tapotements tibias en léger","Haut du corps (soir)","Bassin",null,null,null,null,null,null],["2026-11-10","Mardi",2,"Reprise","Footing 30 min + 4 lignes droites",5,"Facile","Kickboxing (corde à moitié)",null,null,null,null,null,null,null,null],["2026-11-11","Mercredi",2,"Reprise","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2026-11-12","Jeudi",2,"Reprise","SEUIL 1 : 10' facile + 3×6' à RPE 5 (cardio 150-155), récup 2' facile + 5' retour au calme",6,"Soutenue",null,null,"Bassin",null,null,null,null,null,null],["2026-11-13","Vendredi",2,"Reprise","Pas de course",0,"Repos course","Kickboxing (corde à moitié)",null,"Tibias",null,null,null,null,null,null],["2026-11-14","Samedi",2,"Reprise","Pas de course",0,"Repos course",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2026-11-15","Dimanche",2,"Reprise","Sortie longue 40 min",6.5,"Longue",null,null,null,null,null,null,null,null,null],["2026-11-16","Lundi",3,"Construction","SEUIL 2 (entrée) : 15' échauffement + 7×3' à RPE 7, récup 1' trot + 10' retour au calme",8,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2026-11-17","Mardi",3,"Construction","Footing facile 40 min, alerte 150",5,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-11-18","Mercredi",3,"Construction","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2026-11-19","Jeudi",3,"Construction","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-11-20","Vendredi",3,"Construction","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Tibias",null,null,null,null,null,null],["2026-11-21","Samedi",3,"Construction","Progressif 30' : 15' facile + 15' RPE 6",5,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2026-11-22","Dimanche",3,"Construction","Sortie longue 45 min",7.5,"Longue",null,null,null,null,null,null,null,null,null],["2026-11-23","Lundi",4,"Construction","TEST DE SEUIL : 15' échauffement + 30' à fond régulier + 10' retour au calme",9,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2026-11-24","Mardi",4,"Construction","Footing facile 40 min, alerte 150",6.5,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-11-25","Mercredi",4,"Construction","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2026-11-26","Jeudi",4,"Construction","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-11-27","Vendredi",4,"Construction","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Tibias",null,null,null,null,null,null],["2026-11-28","Samedi",4,"Construction","Alternance 4×(1 km facile / 1 km soutenu RPE 6)",8,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2026-11-29","Dimanche",4,"Construction","Sortie longue 60 min (option : 10 km Kochi en tempo RPE 7 si confirmé)",10,"Longue",null,null,null,null,null,null,null,null,null],["2026-11-30","Lundi",5,"Construction","VITESSE : 8×400 m à 3:20-3:25, récup 1' (tapis 1 % ou piste)",9,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2026-12-01","Mardi",5,"Construction","Footing facile 40 min, alerte 150",7,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-12-02","Mercredi",5,"Construction","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2026-12-03","Jeudi",5,"Construction","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-12-04","Vendredi",5,"Construction","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Tibias",null,null,null,null,null,null],["2026-12-05","Samedi",5,"Construction","SEUIL 2 : 15' échauffement + 5×5' à RPE 7, récup 1' + 10' retour au calme",9,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2026-12-06","Dimanche",5,"Construction","Sortie longue 70 min",11.5,"Longue",null,null,null,null,null,null,null,null,null],["2026-12-07","Lundi",6,"Course 10 km","VITESSE : 5×1 km à 3:35-3:38 (allure 10 km visée), récup 1'30",10,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2026-12-08","Mardi",6,"Course 10 km","Footing facile 40 min",7,"Facile","Kickboxing léger, protège-tibias",null,"Bassin",null,null,null,null,null,null],["2026-12-09","Mercredi",6,"Course 10 km","Pas de course",0,"Repos course",null,"Jambes trail (2 séries)","Tibias",null,null,null,null,null,null],["2026-12-10","Jeudi",6,"Course 10 km","Rappel : 15' échauffement + 3×1 km allure 10 km, récup 2'",8,"Soutenue",null,null,null,null,null,null,null,null,null],["2026-12-11","Vendredi",6,"Course 10 km","Pas de course",0,"Repos course","Repos (pas de kick avant la course)",null,null,null,null,null,null,null,null],["2026-12-12","Samedi",6,"Course 10 km","Footing 20 min + 4 lignes droites",4,"Facile",null,null,"Mobilité 12' (pas de séance hanches, course demain)",null,null,null,null,null,null],["2026-12-13","Dimanche",6,"Course 10 km","COURSE : Kochi Navy 10 km à fond (objectif 36:00-37:00, à affiner après le test)",14,"COURSE",null,null,null,"KOCHI NAVY 10 KM",null,null,null,null,null],["2026-12-14","Lundi",7,"Spécifique Yunan","Footing de récup 30 min",5,"Facile",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2026-12-15","Mardi",7,"Spécifique Yunan","Footing facile 40 min",7,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-12-16","Mercredi",7,"Spécifique Yunan","Pas de course",0,"Repos course",null,"Jambes trail + sauts sur box","Tibias",null,null,null,null,null,null],["2026-12-17","Jeudi",7,"Spécifique Yunan","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-12-18","Vendredi",7,"Spécifique Yunan","Pas de course",0,"Repos course","Repos (séance dure demain)",null,"Tibias",null,null,null,null,null,null],["2026-12-19","Samedi",7,"Spécifique Yunan","CÔTES LONGUES : 4×5' RPE 8 (tapis 8 %), récup 3' marche",10,"Dure",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2026-12-20","Dimanche",7,"Spécifique Yunan","Sortie longue 80 min, avec descentes",13,"Longue",null,null,null,null,null,null,null,null,null],["2026-12-21","Lundi",8,"Pekoe Trail","CÔTES COURTES : 8×1' vite en montée, récup descente",8,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2026-12-22","Mardi",8,"Pekoe Trail","Footing facile 40 min",7,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-12-23","Mercredi",8,"Pekoe Trail","Pas de course",0,"Repos course",null,"Jambes trail (léger)","Tibias","Départ Sri Lanka (dates à ajuster)",null,null,null,null,null],["2026-12-24","Jeudi",8,"Pekoe Trail","PEKOE TRAIL jour 1 : marche-course",6,"Vacances",null,null,"Tibias le soir","PEKOE TRAIL",null,null,null,null,null],["2026-12-25","Vendredi",8,"Pekoe Trail","PEKOE TRAIL jour 2",6,"Vacances",null,null,null,null,null,null,null,null,null],["2026-12-26","Samedi",8,"Pekoe Trail","PEKOE TRAIL jour 3",6,"Vacances",null,null,"Mobilité 12' (trek)",null,null,null,null,null,null],["2026-12-27","Dimanche",8,"Pekoe Trail","PEKOE TRAIL jour 4 (ou repos)",6,"Vacances",null,null,null,null,null,null,null,null,null],["2026-12-28","Lundi",9,"Spécifique Yunan","Footing 30 min facile (retour de trek)",5,"Facile",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2026-12-29","Mardi",9,"Spécifique Yunan","Footing facile 40 min + 6 lignes droites",7,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2026-12-30","Mercredi",9,"Spécifique Yunan","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2026-12-31","Jeudi",9,"Spécifique Yunan","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-01-01","Vendredi",9,"Spécifique Yunan","Pas de course",0,"Repos course","Repos (séance dure demain)",null,"Tibias",null,null,null,null,null,null],["2027-01-02","Samedi",9,"Spécifique Yunan","SEUIL : 3×8' RPE 8, récup 2'",10,"Dure",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2027-01-03","Dimanche",9,"Spécifique Yunan","Sortie longue 90 min, avec descentes",15,"Longue",null,null,null,null,null,null,null,null,null],["2027-01-04","Lundi",10,"Spécifique Yunan","CÔTES allure course : 5×4' (tapis 8-10 %), récup 2'",10,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2027-01-05","Mardi",10,"Spécifique Yunan","Footing facile 40 min, alerte 150",7,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-01-06","Mercredi",10,"Spécifique Yunan","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2027-01-07","Jeudi",10,"Spécifique Yunan","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-01-08","Vendredi",10,"Spécifique Yunan","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Tibias",null,null,null,null,null,null],["2027-01-09","Samedi",10,"Spécifique Yunan","Soutenu 2×12' RPE 6",9,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2027-01-10","Dimanche",10,"Spécifique Yunan","Sortie longue 75 min",12.5,"Longue",null,null,null,null,null,null,null,null,null],["2027-01-11","Lundi",11,"Affûtage + Yunan","Rappel : 4×3' allure course, récup 2'",8,"Dure",null,"Haut du corps (léger)",null,null,null,null,null,null,null],["2027-01-12","Mardi",11,"Affûtage + Yunan","Footing 35 min",6,"Facile","Kickboxing léger (dernier avant la course)",null,"Bassin",null,null,null,null,null,null],["2027-01-13","Mercredi",11,"Affûtage + Yunan","Footing 30 min + 4 lignes droites",5,"Facile",null,null,null,null,null,null,null,null,null],["2027-01-14","Jeudi",11,"Affûtage + Yunan","Repos / voyage Chine",0,"Repos course",null,null,null,null,null,null,null,null,null],["2027-01-15","Vendredi",11,"Affûtage + Yunan","Activation : 15 min + 3 lignes droites",3,"Facile",null,null,null,null,null,null,null,null,null],["2027-01-16","Samedi",11,"Affûtage + Yunan","COURSE : YUNAN ULTRA TRAIL 29 km, objectif podium",29,"COURSE",null,null,null,"YUNAN 29 KM",null,null,null,null,null],["2027-01-17","Dimanche",11,"Affûtage + Yunan","Repos (marche tranquille)",0,"Repos course",null,null,null,null,null,null,null,null,null],["2027-01-18","Lundi",12,"Récup + trek","Repos",0,"Repos course",null,null,null,null,null,null,null,null,null],["2027-01-19","Mardi",12,"Récup + trek","Footing 25 min très facile",4,"Facile",null,null,null,null,null,null,null,null,null],["2027-01-20","Mercredi",12,"Récup + trek","Trek / rando, au ressenti",0,"Vacances",null,null,"Tibias",null,null,null,null,null,null],["2027-01-21","Jeudi",12,"Récup + trek","Trek / rando",0,"Vacances",null,null,null,null,null,null,null,null,null],["2027-01-22","Vendredi",12,"Récup + trek","Footing 30 min facile",5,"Facile",null,null,null,null,null,null,null,null,null],["2027-01-23","Samedi",12,"Récup + trek","Trek / rando",0,"Vacances",null,null,"Mobilité 12' (trek)",null,null,null,null,null,null],["2027-01-24","Dimanche",12,"Récup + trek","Footing 35 min facile",6,"Facile",null,null,null,null,null,null,null,null,null],["2027-01-25","Lundi",13,"Bloc Ooty","CÔTES : 6×3' à 10 %, récup 2'",9,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2027-01-26","Mardi",13,"Bloc Ooty","Footing facile 40 min, alerte 150",7,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-01-27","Mercredi",13,"Bloc Ooty","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2027-01-28","Jeudi",13,"Bloc Ooty","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-01-29","Vendredi",13,"Bloc Ooty","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Tibias",null,null,null,null,null,null],["2027-01-30","Samedi",13,"Bloc Ooty","Progressif 45' : 25' facile + 20' RPE 6",8,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2027-01-31","Dimanche",13,"Bloc Ooty","Sortie longue 70 min",11.5,"Longue",null,null,null,null,null,null,null,null,null],["2027-02-01","Lundi",14,"Bloc Ooty","VMA EN CÔTE : 10×1' très vite (tapis 8 %), récup 1'30",9,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2027-02-02","Mardi",14,"Bloc Ooty","Footing facile 40 min, alerte 150",7,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-02-03","Mercredi",14,"Bloc Ooty","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2027-02-04","Jeudi",14,"Bloc Ooty","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-02-05","Vendredi",14,"Bloc Ooty","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Tibias",null,null,null,null,null,null],["2027-02-06","Samedi",14,"Bloc Ooty","Tempo en montée : 3×8' RPE 6-7 (tapis 6 %)",9,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2027-02-07","Dimanche",14,"Bloc Ooty","Sortie longue 90 min",15,"Longue",null,null,null,null,null,null,null,null,null],["2027-02-08","Lundi",15,"Bloc Ooty","VITESSE : 6×1 km à 3:25-3:30, récup 1'30",11,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2027-02-09","Mardi",15,"Bloc Ooty","Footing facile 40 min, alerte 150",7,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-02-10","Mercredi",15,"Bloc Ooty","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2027-02-11","Jeudi",15,"Bloc Ooty","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-02-12","Vendredi",15,"Bloc Ooty","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Tibias",null,null,null,null,null,null],["2027-02-13","Samedi",15,"Bloc Ooty","Soutenu 3×10' RPE 6",10,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2027-02-14","Dimanche",15,"Bloc Ooty","Sortie longue 75 min (option : 10 km Kochi Marathon si le 14 févr.)",13,"Longue",null,null,null,"Option 10 km Kochi Marathon (7 ou 14 févr.)",null,null,null,null,null],["2027-02-15","Lundi",16,"Allégée","FARTLEK EN CÔTE : 8×1' vite / 1' facile",8,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2027-02-16","Mardi",16,"Allégée","Footing facile 40 min, alerte 150",6,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-02-17","Mercredi",16,"Allégée","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2027-02-18","Jeudi",16,"Allégée","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-02-19","Vendredi",16,"Allégée","Pas de course",0,"Repos course","Repos",null,"Tibias",null,null,null,null,null,null],["2027-02-20","Samedi",16,"Allégée","Footing 35' + 6 lignes droites",6,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2027-02-21","Dimanche",16,"Allégée","Sortie longue 75 min",12.5,"Longue",null,null,null,null,null,null,null,null,null],["2027-02-22","Lundi",17,"Bloc Ooty","VMA EN CÔTE : 12×1' très vite, récup 1'30",10,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2027-02-23","Mardi",17,"Bloc Ooty","Footing facile 40 min, alerte 150",8,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-02-24","Mercredi",17,"Bloc Ooty","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2027-02-25","Jeudi",17,"Bloc Ooty","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-02-26","Vendredi",17,"Bloc Ooty","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Tibias",null,null,null,null,null,null],["2027-02-27","Samedi",17,"Bloc Ooty","Tempo en montée : 4×8' RPE 7 (tapis 6 %)",10,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2027-02-28","Dimanche",17,"Bloc Ooty","Sortie longue 1h45 avec blocs de marche inclinée 12-15 %",18,"Longue",null,null,null,null,null,null,null,null,null],["2027-03-01","Lundi",18,"Pic Ooty","CÔTES LONGUES : 5×5' allure Ooty, récup 2'",11,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2027-03-02","Mardi",18,"Pic Ooty","Footing facile 40 min, alerte 150",8,"Facile","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-03-03","Mercredi",18,"Pic Ooty","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2027-03-04","Jeudi",18,"Pic Ooty","Pas de course",0,"Repos course","Kickboxing (protège-tibias)",null,"Bassin",null,null,null,null,null,null],["2027-03-05","Vendredi",18,"Pic Ooty","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Tibias",null,null,null,null,null,null],["2027-03-06","Samedi",18,"Pic Ooty","Soutenu 3×10' RPE 6",10,"Soutenue",null,null,"Séance hanches 35'",null,null,null,null,null,null],["2027-03-07","Dimanche",18,"Pic Ooty","SIMULATION : 20 km dont 3×4 km allure Ooty",20,"Longue",null,null,null,null,null,null,null,null,null],["2027-03-08","Lundi",19,"Affûtage","VITESSE : 5×1 km à 3:25, récup 1'30",10,"Dure",null,"Haut du corps (soir)",null,null,null,null,null,null,null],["2027-03-09","Mardi",19,"Affûtage","Footing facile 40 min, alerte 150",7,"Facile","Kickboxing léger, protège-tibias",null,"Bassin",null,null,null,null,null,null],["2027-03-10","Mercredi",19,"Affûtage","Pas de course",0,"Repos course",null,"Jambes trail","Tibias",null,null,null,null,null,null],["2027-03-11","Jeudi",19,"Affûtage","Pas de course",0,"Repos course","Kickboxing léger, protège-tibias",null,"Bassin",null,null,null,null,null,null],["2027-03-12","Vendredi",19,"Affûtage","Pas de course",0,"Repos course","Repos",null,"Tibias",null,null,null,null,null,null],["2027-03-13","Samedi",19,"Affûtage","2×12' allure Ooty en montée",9,"Soutenue",null,null,"Séance hanches version courte (20', sans Copenhague)",null,null,null,null,null,null],["2027-03-14","Dimanche",19,"Affûtage","Sortie longue 70 min",12,"Longue",null,null,null,null,null,null,null,null,null],["2027-03-15","Lundi",20,"Affûtage + Ooty","Rappel : 4×3' allure course, récup 2'",8,"Dure",null,"Haut du corps (léger)",null,null,null,null,null,null,null],["2027-03-16","Mardi",20,"Affûtage + Ooty","Footing 35 min",6,"Facile","Kickboxing léger (dernier avant la course)",null,"Bassin",null,null,null,null,null,null],["2027-03-17","Mercredi",20,"Affûtage + Ooty","Footing 30 min + 4 lignes droites",5,"Facile",null,null,null,null,null,null,null,null,null],["2027-03-18","Jeudi",20,"Affûtage + Ooty","Footing 25 min",4,"Facile",null,null,null,null,null,null,null,null,null],["2027-03-19","Vendredi",20,"Affûtage + Ooty","Repos / voyage Ooty",0,"Repos course",null,null,null,null,null,null,null,null,null],["2027-03-20","Samedi",20,"Affûtage + Ooty","Activation : 15 min + 3 lignes droites",3,"Facile",null,null,"Mobilité 12' douce (course demain)",null,null,null,null,null,null],["2027-03-21","Dimanche",20,"Affûtage + Ooty","COURSE : OOTYULTRA 30 km, objectif podium (record 2:41:31)",30,"COURSE",null,null,null,"OOTYULTRA 30 KM",null,null,null,null,null]],"Séances":[["Bibliothèque des séances",null,null,null],[null,null,null,null],["Séance","Comment la faire","Effort (RPE)","Pourquoi"],["Footing facile","Allure conversation, alerte cardio à 150 (jusqu'au test de seuil, puis tes nouvelles zones). Métronome 166-170.","3-4","Construire le moteur sans fatigue. 80 % de ton volume."],["Lignes droites","En fin de footing : 4-6 × 20 s en accélérant progressivement, relâché, récup 1' en marchant.","7 (court)","Vitesse « gratuite », foulée et cadence. Ne compte pas comme séance dure."],["Test de seuil","15' échauffement, puis 30' le plus vite possible mais régulier, 10' retour au calme. On note la FC moyenne des 20 dernières minutes.","9","Fixer tes vraies zones cardio et allures."],["Côtes (tapis)","15' échauffement, répétitions en montée à 8-12 %, récup en marchant. Pousse avec les bras, cadence haute.","8-9","Force et puissance en montée, avec peu d'impact pour les tibias."],["VMA en côte","Répétitions courtes (30 s à 1') très vite en montée, récup longue.","9","Le moteur maximal, version douce pour les tibias. Gardée pour le bloc Ooty."],["Vitesse sur plat (400 m, 1 km)","Sur tapis à 1 % ou piste, jamais sur béton. Uniquement si tibias à 0. Cadence 170+.","8-9","Préparer le 10 km et entretenir ta vitesse route."],["Seuil 1 (endurance active)","Fractions de 6-10' juste au-dessus du footing : respiration plus marquée mais tu parles encore. Exemple : 3×6', récup 2'. Cardio 150-155 en attendant le test.","5","Monter doucement en intensité pendant la reprise, avant le vrai seuil."],["Seuil","Fractions à allure « dur mais tenable », cardio sous la valeur du test. Progression : 7×3' (r 1') → 5×5' (r 1') → 4×6' ou 3×8' (r 1'30) → 3×10' (r 2') → 2×15' → 25' continu. On avance seulement si la séance précédente s'est faite au même cardio. La dernière fraction aussi rapide que la première.","7-8","Tenir longtemps une allure élevée : clé sur 30 km."],["Séance soutenue (RPE 6)","Progressif, alternance 1 km facile / 1 km soutenu, 3×10' soutenu. Tu peux parler par phrases courtes.","6","Endurance au seuil sans te mettre dans le rouge."],["Tempo en montée","Tapis à 6 %, fractions de 8' à allure soutenue, récup 2'.","6-7","Allure de course d'Ooty en montée."],["Sortie longue","Tôt le matin, allure facile, marche les montées raides. Avec descentes quand possible. Boire et manger dès 1h15.","3-5","Endurance, solidité, descente, nutrition."],["Simulation","20 km dont 3×4 km à allure Ooty, avec ton matériel et ta nutrition de course.","7","Répétition générale 2 semaines avant Ooty."],["Kickboxing (mar, jeu, ven)","Toujours avec protège-tibias : les coups de pied tapent directement sur le tibia. Les 2 premières semaines : corde à moitié et coups de pied à puissance réduite. Pas la veille d'une séance dure.","6-8","Gainage en rotation, appuis, hanches, épaules. Complément, pas remplaçant."],["Salle haut du corps (45')","Tractions 4×max, rowing 3×8-10, élévations latérales 4×12-15, développé militaire 3×8-10, oiseau 3×15, dips 3×10-12.","7","Dos large et épaules, physique sec."],["Salle jambes trail (45-50')","Médecine ball + pieds, bulgarian, 1 leg RDL, hip hike, hip thrust, step-down, circuit mollets-tibias. Évolue : soulevé de terre et pogo hops en novembre, sauts en décembre.","7","Puissance, descente, prévention des blessures."],["Routine tibias (10')","Relevés de pointe au mur, mollets excentriques genou tendu et fléchi, montée sur pointes avec balle, short foot + marche talons/pointes.","4","Prévention de la périostite."],["Routine bassin (10')","Planche latérale + levée de jambe, marche latérale élastique, abduction, équilibre sur une jambe.","4","Corriger la bascule du bassin et de l'épaule."],["Routine mobilité (12')","Tous les soirs : squat profond, 90/90, fente canapé, grenouille, demi-grand écart, pigeon, genou au mur, livre ouvert. Détail dans l'onglet « Mobilité ».","3","Garder et gagner de l'amplitude. Pas pour courir plus vite, pour la boxe, le confort et les positions de muscu."],["Séance hanches (35')","Samedi après la course du jour : 90/90 décollés, fente cosaque, planche de Copenhague, avions, fente canapé active, contracter-relâcher grand écart. Détail dans l'onglet « Mobilité ».","5-6","Force dans les nouvelles amplitudes, adducteurs solides, contrôle du bassin."]],"Mobilité":[["Mobilité et souplesse",null,null,null],["Règles : tension 6/10 maximum, jamais de douleur. Étirements longs (plus de 60 s par muscle) jamais juste avant une séance dure ou une course : le soir ou après la séance. Avant de courir, uniquement de la mobilité dynamique (balanciers de jambes, fentes en mouvement). La régularité compte plus que l'intensité : 5 à 6 jours sur 7.",null,null,null],[null,null,null,null],["Routine quotidienne (12') : le soir, ou après la séance du jour",null,null,null],["Exercice","Comment le faire","Dosage","Pourquoi"],["Squat profond tenu","Pieds largeur d'épaules, talons au sol (cale sous les talons si besoin), coudes qui poussent les genoux vers l'extérieur. Respire calmement.","1 min","Hanches, chevilles, adducteurs en une position. Base de tout le reste."],["90/90 bascules","Assis, les deux jambes à 90°. Bascule les genoux d'un côté puis de l'autre sans les mains, buste droit. Tiens 30 s penché sur la jambe avant à la fin.","10 bascules + 30 s/côté","Rotation interne et externe de hanche, souvent pauvre chez les coureurs."],["Fente basse fléchisseur (canapé)","Genou arrière au sol (ou contre un canapé pour la version dure). Serre le fessier arrière, rentre le bassin, avance doucement. Bras du même côté vers le haut.","2 × 45 s/côté","Extension de hanche : la jambe arrière qui pousse en course. Aide aussi la bascule du bassin."],["Grenouille (adducteurs)","À quatre pattes, genoux écartés, pieds en dehors. Recule les fesses vers les talons. Contracte 5 s (genoux qui poussent vers le sol), relâche, gagne un peu.","1 min 30","Base du grand écart facial. Hanches ouvertes pour les coups de pied."],["Demi-grand écart (ischios)","Genou arrière au sol, jambe avant tendue, pointe vers soi. Dos plat, penche-toi depuis les hanches.","45 s/côté","Ischios, base du grand écart antéro-postérieur."],["Pigeon ou figure 4","Pigeon au sol, ou allongé cheville sur le genou opposé. Bassin droit.","45 s/côté","Fessier profond et rotateurs externes."],["Genou au mur (cheville)","Pied à une main du mur, amène le genou au mur sans décoller le talon. Recule le pied quand c'est facile.","10/côté, lent","Flexion de cheville, utile en côte et en descente. Doux : pas sur les jours où les tibias sont à 2 ou plus."],["Livre ouvert (thoracique)","Allongé sur le côté, genoux pliés, ouvre le bras du dessus vers l'autre côté en suivant la main des yeux.","8/côté","Rotation du haut du dos pour la boxe et le balancier des bras."],[null,null,null,null],["Séance hebdo hanches (35') : le samedi, après la course du jour",null,null,null],["Mobilité active : on renforce les hanches dans les amplitudes qu'on gagne avec la routine, sinon le corps ne les utilise pas. Effort RPE 5-6, jamais à l'échec (la sortie longue est le lendemain). Semaine de course ou de trek : seulement la routine quotidienne.",null,null,null],["Exercice","Comment le faire","Dosage","Pourquoi"],["Échauffement","5' vélo ou corde légère, puis balanciers de jambes avant et côté.","5'","Monter la température avant les grandes amplitudes."],["90/90 avec décollés","En position 90/90, buste droit, décolle le pied arrière (rotation interne) puis le genou avant (rotation externe) sans te pencher.","3 × 5/côté","Force en rotation de hanche, stabilité en descente et sur terrain technique."],["Fente cosaque","Pieds très écartés, descends sur une jambe, l'autre tendue pointe vers le haut. Talon au sol. Ajoute un kettlebell en goblet quand c'est facile.","3 × 6/côté","Adducteurs forts en position longue : appuis latéraux, grand écart facial."],["Planche de Copenhague","Planche latérale, jambe du dessus posée sur un banc. Débutant : genou sur le banc (levier court). Progresse vers la cheville.","3 × 20-30 s/côté","Le programme de Copenhague a réduit d'environ 40 % les problèmes d'aine chez des footballeurs."],["Avions de hanche","Debout sur une jambe, buste penché, ouvre le bassin vers le côté puis referme. Tiens-toi à un support au début.","3 × 5/côté, lent","Contrôle du bassin sur une jambe : ta bascule du bassin, la course, les coups de pied."],["Fente canapé active","En position canapé, décolle et repose le pied avant, ou contracte le fessier arrière 5 s, relâche, avance.","3 × 5/côté","Gagner de l'extension de hanche et la contrôler."],["Good morning jambes écartées","Jambes écartées, bâton ou disque léger, penche-toi dos plat aussi loin que possible, remonte en serrant les fessiers.","3 × 8","Ischios et adducteurs en charge : vers le grand écart facial."],["Contracter-relâcher grand écart","Grand écart (facial ou antéro-postérieur, alterne chaque semaine) jusqu'à 6/10. Pousse 5 s contre le sol, relâche 3 s, descends un peu. 4 cycles.","3 tours","La méthode la plus rapide pour gagner de l'amplitude, à faire chaud."],["Squat goblet tenu","Kettlebell contre la poitrine, squat le plus profond possible, coudes qui ouvrent les genoux.","2 × 45 s","Finir dans une position profonde chargée."],[null,null,null,null],["Tests (1er samedi du mois, à noter dans la colonne Ressenti)",null,null,null],["Test","Comment mesurer","Départ","Objectif"],["Grand écart facial","Distance entre le bassin et le sol (cm), échauffé.",null,null],["Grand écart antéro-postérieur","Distance bassin-sol, chaque côté (cm).",null,null],["Genou au mur","Distance max pied-mur, talon au sol (cm), chaque côté.",null,"10 cm ou plus"],["Fente canapé","Peux-tu mettre le buste droit avec le fessier serré ? (oui / non)",null,"Oui des deux côtés"]],"Vacances & imprévus":[["Vacances, randos et imprévus : comment adapter",null],[null,null],["Situation","Ce que tu fais"],["Rando de 3h ou plus avec du dénivelé","Elle remplace la sortie longue de la semaine. Note le D+ dans le calendrier."],["Semaine de rando ou de trek","Garde 2 footings courts (25-35') les jours plus calmes, plus la routine tibias. Pas de séance dure."],["Pas de salle ni de boxe","Circuit gainage au poids du corps (dead bug, planche, planche latérale, pont 1 jambe, bird dog, hollow) + pompes."],["Altitude (au-dessus de 2 500 m)","2-3 jours sans courir à l'arrivée, puis footings au ressenti. Le cardio monte, c'est normal."],["Longue journée de voyage","Marche 30-60 min, pas de course. On reprend le lendemain sans rattraper."],["Séance manquée","On ne rattrape pas. On passe à la suivante. Une séance dure manquée ne se décale que si les 2 jours suivants sont faciles."],["Semaine coupée (moins de 50 % du volume)","La semaine suivante, on refait la semaine coupée au lieu d'avancer dans le plan."],["Fatigue ou mauvaise nuit","La séance dure devient un footing facile. Le cours de kickboxing du vendredi saute en premier."],["Douleur au tibia après le kickboxing","Arrête les coups de pied avec le tibia (garde les poings et le jeu de jambes) jusqu'à 0 douleur, et dis-le-moi."],["Douleur au tibia au-dessus de 3/10","Stop course, elliptique ou vélo, et tu m'envoies un message."]]},"source":"Planning_Ooty_2027.xlsx","updated":"2026-11-10"}/*END*/;
+const LS = 'ooty-plan-import-v2';
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+const iso = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parseIso = s => { const [y,m,d] = s.slice(0,10).split('-').map(Number); return new Date(y,m-1,d); };
+const addDays = (s,n) => { const d = parseIso(s); d.setDate(d.getDate()+n); return iso(d); };
+const JOURS = ['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'];
+const fmtLong = s => parseIso(s).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const typeClass = t => 't-' + (t ? (t.startsWith('Repos') ? 'Repos' : t.replace(/\s.*/,'')) : 'Repos');
+const fmtKm = k => (k===undefined||k===null||k==='') ? '' : String(Math.round(Number(k)*10)/10).replace('.',',');
+const empty = v => v===null || v===undefined || v==='';
+
+// ---------- Parsing (same code for the published version and for an imported .xlsx)
+const KEYS = {'Date':'date','Jour':'jour','Sem.':'sem','Phase':'phase','Course à pied':'course','Km cible':'km','Type':'type','Kickboxing':'kick','Salle':'salle','Routine':'routine','Événement':'event','Fait ?':'fait','Km réalisé':'kmr','D+ réalisé':'dpr','Tibias (/10)':'tib','Ressenti':'ressenti'};
+function toIso(v){
+  if (typeof v === 'number'){ const d = new Date(Date.UTC(1899,11,30) + Math.round(v)*864e5); return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()); }
+  if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v)) return v.slice(0,10);
+  return null;
+}
+function parseSheets(sheets, source, updated){
+  const cal = sheets['Calendrier'];
+  if (!cal) throw new Error("Onglet « Calendrier » introuvable. Vérifie que c'est bien le fichier Planning_Ooty.");
+  const h = cal.findIndex(r => r && r[0]==='Date');
+  if (h < 0) throw new Error("Ligne d'en-tête « Date » introuvable dans l'onglet Calendrier.");
+  const hdr = cal[h], days = [];
+  for (const r of cal.slice(h+1)){
+    if (!r) continue;
+    const d = {};
+    hdr.forEach((name,i) => { const k = KEYS[name]; const v = r[i]; if (k && !empty(v)) d[k] = (k==='date') ? toIso(v) : v; });
+    if (d.date) days.push(d);
+  }
+  if (!days.length) throw new Error('Aucune journée trouvée dans le calendrier.');
+  const lib = (sheets['Séances']||[]).slice(2).filter(r => r && r[0] && r[0]!=='Séance').map(r => ({name:r[0],how:r[1],rpe:empty(r[2])?'':String(r[2]),why:r[3]}));
+  const adapt = (sheets['Vacances & imprévus']||[]).slice(2).filter(r => r && r[0] && r[0]!=='Situation').map(r => ({sit:r[0],todo:r[1]}));
+  // Mobilité: single-cell rows are section titles (or the intro right after a title); 'Exercice'/'Test' rows are headers
+  const mob = {rules:'', sections:[]}; let cur = null, prevTitle = false;
+  for (const r of (sheets['Mobilité']||[])){
+    if (!r || r.every(empty)) continue;
+    const single = !empty(r[0]) && r.slice(1).every(empty);
+    if (single){
+      if (prevTitle && cur){ cur.intro = r[0]; prevTitle = false; continue; }
+      if (!cur && !mob.title){ mob.title = r[0]; prevTitle = true; cur = null; continue; }
+      if (!cur && prevTitle === true && mob.title && !mob.rules){ mob.rules = r[0]; prevTitle = false; continue; }
+      if (!cur && !mob.rules){ mob.rules = r[0]; continue; }
+      cur = {title:r[0], intro:'', items:[]}; mob.sections.push(cur); prevTitle = true; continue;
+    }
+    prevTitle = false;
+    if (r[0]==='Exercice' || r[0]==='Test') { if (cur) cur.header = r; continue; }
+    if (cur) cur.items.push({name:r[0], how:r[1], dose:r[2], why:r[3]});
+  }
+  return {days, lib, adapt, mob, source, updated};
+}
+const EMBED = parseSheets(EMBED_RAW.sheets, EMBED_RAW.source, EMBED_RAW.updated);
+let DATA = EMBED, FROM_IMPORT = false;
+try { const s = localStorage.getItem(LS); if (s){ const raw = JSON.parse(s); DATA = parseSheets(raw.sheets, raw.source, raw.updated); FROM_IMPORT = true; } } catch(e){ DATA = EMBED; }
+
+let byDate = {}, sel = iso(new Date());
+function index(){ byDate = {}; DATA.days.forEach(d => byDate[d.date] = d); }
+const mobSection = re => (DATA.mob.sections||[]).find(s => re.test(s.title));
+
+// ---------- Match a line of the plan to the "Séances" library
+const RULES = {
+  course: [[/test de seuil/i,'Test de seuil'], [/seuil 1/i,'Seuil 1'], [/seuil/i,'Seuil'], [/vma/i,'VMA en côte'], [/c[ôo]tes|fartlek/i,'Côtes'],
+           [/vitesse|400 ?m|×1 ?km/i,'Vitesse sur plat'], [/tempo/i,'Tempo en montée'], [/simulation/i,'Simulation'],
+           [/progressif|alternance|soutenu/i,'Séance soutenue'], [/sortie longue/i,'Sortie longue'],
+           [/footing|activation|reprise/i,'Footing facile'], [/lignes droites/i,'Lignes droites']],
+  kick: [[/kickboxing/i,'Kickboxing']],
+  salle: [[/haut du corps/i,'Salle haut du corps'], [/jambes/i,'Salle jambes']],
+  routine: [[/tibias/i,'Routine tibias'], [/bassin/i,'Routine bassin'], [/mobilit/i,'Routine mobilité'], [/hanches/i,'Séance hanches']],
+};
+function findLib(text, field){
+  if (!text) return [];
+  const out = [];
+  for (const [re,name] of RULES[field]){
+    if (re.test(text)){
+      const s = DATA.lib.find(l => l.name.toLowerCase().startsWith(name.toLowerCase()));
+      if (s && !out.includes(s)) out.push(s);
+    }
+  }
+  return out.filter(s => !(s.name==='Seuil' && out.some(x => x.name.startsWith('Seuil 1') || x.name==='Test de seuil')));
+}
+function exList(sec){
+  if (!sec || !sec.items.length) return '';
+  return `<ol class="ex">${sec.items.map(i => `<li><span class="nm">${esc(i.name)}</span>${empty(i.dose)?'':`<span class="ds">${esc(i.dose)}</span>`}<span class="hw">${esc(i.how)}</span></li>`).join('')}</ol>`;
+}
+function howBlock(text, field){
+  return findLib(text, field).map(s => {
+    let extra = '';
+    if (/mobilit/i.test(s.name)) extra = exList(mobSection(/quotidienne/i));
+    if (/hanches/i.test(s.name)) { const sec = mobSection(/hanches/i); extra = (sec && sec.intro ? `<p class="why">${esc(sec.intro)}</p>` : '') + exList(sec); }
+    return `<details class="how"><summary>${esc(s.name)} : comment la faire${s.rpe ? ' · RPE '+esc(s.rpe) : ''}</summary>
+    <div class="body">${extra || `<p>${esc(s.how)}</p>`}${s.why ? `<p class="why">Pourquoi : ${esc(s.why)}</p>` : ''}${extra && DATA.mob.rules ? `<p class="rule">${esc(DATA.mob.rules)}</p>` : ''}</div></details>`;
+  }).join('');
+}
+const isRestText = t => !t || /^repos/i.test(t);
+const firstSaturday = ds => { const d = parseIso(ds); return d.getDay()===6 && d.getDate()<=7; };
+
+// ---------- Rendering
+function renderHeader(d){
+  const today = iso(new Date());
+  const diff = Math.round((parseIso(sel)-parseIso(today))/864e5);
+  $('hdr-eyebrow').textContent = diff===0 ? "Aujourd'hui" : diff===1 ? 'Demain' : diff===-1 ? 'Hier' : (diff>0 ? 'Dans '+diff+' jours' : 'Il y a '+(-diff)+' jours');
+  $('hdr-date').textContent = fmtLong(sel);
+  $('hdr-meta').innerHTML = d ? `<span class="chip">Semaine ${esc(d.sem)}</span><span class="chip">${esc(d.phase)}</span>` : '';
+}
+function renderCountdowns(){
+  const today = iso(new Date());
+  const all = DATA.days.filter(d => d.type==='COURSE' && d.date >= today);
+  const races = all.length > 1 ? [all[0], all[all.length-1]] : all; // next race + the season goal
+  $('countdowns').innerHTML = races.map(r => {
+    const n = Math.round((parseIso(r.date)-parseIso(today))/864e5);
+    const name = r.event || String(r.course).replace(/^COURSE\s*:\s*/i,'').split(',')[0];
+    return `<div class="cd"><b class="mono">${n===0 ? 'Jour J' : 'J-'+n}</b><strong>${esc(name)}</strong><span>${parseIso(r.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}</span></div>`;
+  }).join('');
+}
+function weekDates(s){ const d = parseIso(s); const off = (d.getDay()+6)%7; return [...Array(7)].map((_,i) => addDays(s, i-off)); }
+function renderDays(){
+  const today = iso(new Date());
+  $('days').innerHTML = weekDates(sel).map(ds => {
+    const d = byDate[ds], dt = parseIso(ds);
+    const cls = [d ? typeClass(d.type) : 't-Repos', ds===today?'today':'', d && d.fait ? 'done':''].join(' ');
+    return `<button type="button" class="${cls}" data-d="${ds}" ${ds===sel?'aria-current="date"':''} aria-label="${esc(fmtLong(ds))}">
+      <span class="d">${JOURS[dt.getDay()]}</span><span class="n">${dt.getDate()}</span><span class="bar"></span><span class="k">${d && d.km ? fmtKm(d.km)+' km' : '—'}</span></button>`;
+  }).join('');
+  $('days').querySelectorAll('button').forEach(b => b.onclick = () => go(b.dataset.d));
+}
+function renderDay(d){
+  const card = $('daycard');
+  if (!d){
+    const first = DATA.days[0].date, last = DATA.days[DATA.days.length-1].date;
+    card.innerHTML = `<div class="run t-Repos"><h2>Pas de programme pour ce jour</h2><p class="empty">Le plan couvre du ${fmtLong(first)} au ${fmtLong(last)}.</p></div>`;
+    return;
+  }
+  const t = d.type || 'Repos course';
+  const rest = /^Repos/.test(t);
+  let html = `<div class="run ${typeClass(t)}"><div class="top"><span class="pill">${esc(rest ? 'Repos course' : t)}</span>${d.km ? `<span class="km"><b class="mono">${fmtKm(d.km)}</b> km cible</span>` : ''}</div>
+    <h2>${esc(d.course || 'Pas de course')}</h2>
+    ${d.fait ? `<div class="done-banner">✓ Fait${!empty(d.kmr) ? ' · '+fmtKm(d.kmr)+' km' : ''}${d.dpr ? ' · '+esc(d.dpr)+' m D+' : ''}${!empty(d.tib) ? ' · tibias '+esc(d.tib)+'/10' : ''}${d.ressenti ? ' · '+esc(d.ressenti) : ''}</div>` : ''}
+    ${rest ? '' : `<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">${howBlock(d.course,'course')}</div>`}
+  </div><div class="rows">`;
+  const row = (lbl, txt, field, cls='') => `<div class="row ${cls}"><div class="lbl">${lbl}</div><div class="val"><div class="txt">${esc(txt)}</div>${field ? howBlock(txt, field) : ''}</div></div>`;
+  if (d.event) html += row('Événement', d.event, null, 'event');
+  if (d.kick && !isRestText(d.kick)) html += row('Kickboxing', d.kick, 'kick');
+  else if (d.kick) html += `<div class="row"><div class="lbl">Kickboxing</div><div class="val"><div class="txt empty">${esc(d.kick)}</div></div></div>`;
+  if (d.salle) html += row('Salle', d.salle, 'salle');
+  if (d.routine) html += row('Routine', d.routine, 'routine');
+  // Daily mobility routine, every evening, unless the Routine column already is the mobility routine
+  const daily = mobSection(/quotidienne/i);
+  if (daily && !/mobilit/i.test(d.routine||'')) {
+    html += `<div class="row"><div class="lbl">Le soir</div><div class="val"><div class="txt">${esc(daily.title.replace(/\s*:.*$/,''))}</div>
+      <details class="how"><summary>Les ${daily.items.length} exercices</summary><div class="body">${exList(daily)}${DATA.mob.rules ? `<p class="rule">${esc(DATA.mob.rules)}</p>` : ''}</div></details></div></div>`;
+  }
+  const tests = mobSection(/^tests?/i);
+  if (tests && firstSaturday(d.date)) {
+    html += `<div class="row"><div class="lbl">Tests</div><div class="val"><div class="txt">${esc(tests.title)}</div>
+      <details class="how"><summary>Ce qu'on mesure</summary><div class="body">${exList({items: tests.items.map(i => ({name:i.name, how:i.how, dose: i.why ? 'Objectif : '+i.why : ''}))})}</div></details></div></div>`;
+  }
+  html += '</div>';
+  card.innerHTML = html;
+}
+function renderWeek(){
+  const ds = weekDates(sel).map(x => byDate[x]).filter(Boolean);
+  const kmC = ds.reduce((a,d) => a + (Number(d.km)||0), 0);
+  const kmR = ds.reduce((a,d) => a + (Number(d.kmr)||0), 0);
+  const sessions = ds.filter(d => d.type && !/^Repos/.test(d.type));
+  const done = ds.filter(d => d.fait).length;
+  const hard = ds.filter(d => d.type==='Dure').length, sout = ds.filter(d => d.type==='Soutenue').length;
+  const pct = kmC ? Math.min(100, Math.round(kmR/kmC*100)) : 0;
+  $('week').innerHTML = `
+    <div class="stat"><div class="v mono">${fmtKm(kmR)}<small> / ${fmtKm(kmC)} km</small></div><div class="l">km réalisés / cible</div></div>
+    <div class="stat"><div class="v mono">${done}<small> / ${sessions.length}</small></div><div class="l">jours cochés « Fait »</div></div>
+    <div class="stat"><div class="v mono">${hard+sout}</div><div class="l">qualité : ${hard} dure, ${sout} soutenue</div></div>
+    <div class="progress" role="img" aria-label="${pct} % du volume réalisé"><i style="width:${pct}%"></i></div>`;
+}
+function renderAdapt(){
+  $('adapt').innerHTML = (DATA.adapt||[]).map(a => `<details><summary>${esc(a.sit)}</summary><p>${esc(a.todo)}</p></details>`).join('');
+}
+function renderFooter(){
+  const when = parseIso(String(DATA.updated)).toLocaleDateString('fr-FR');
+  $('srcline').textContent = FROM_IMPORT ? `Source : ${DATA.source}, importé le ${when} sur cet appareil.` : `Source : ${DATA.source}, version du ${when}.`;
+  $('reset').hidden = !FROM_IMPORT;
+}
+function render(){ const d = byDate[sel]; renderHeader(d); renderCountdowns(); renderDays(); renderDay(d); renderWeek(); }
+function go(ds){ sel = ds; render(); }
+$('prev').onclick = () => go(addDays(sel,-1));
+$('next').onclick = () => go(addDays(sel,1));
+$('todayBtn').onclick = () => go(iso(new Date()));
+document.addEventListener('keydown', e => { if (e.target.tagName==='INPUT') return; if (e.key==='ArrowLeft') go(addDays(sel,-1)); if (e.key==='ArrowRight') go(addDays(sel,1)); });
+
+// ---------- Import a newer Excel on this device
+$('file').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  const msg = $('msg'); msg.className = 'msg';
+  try {
+    if (typeof XLSX === 'undefined') throw new Error("Le lecteur Excel n'a pas pu se charger. Réessaie avec une connexion.");
+    const wb = XLSX.read(await f.arrayBuffer(), {type:'array'});
+    const sheets = {};
+    ['Calendrier','Séances','Mobilité','Vacances & imprévus'].forEach(n => { if (wb.Sheets[n]) sheets[n] = XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:true, defval:null}); });
+    const raw = {sheets, source: f.name, updated: iso(new Date())};
+    DATA = parseSheets(raw.sheets, raw.source, raw.updated); FROM_IMPORT = true; index();
+    try { localStorage.setItem(LS, JSON.stringify(raw)); } catch(err){}
+    msg.textContent = `${DATA.days.length} jours chargés depuis ${f.name}.`;
+    renderAdapt(); renderFooter(); render();
+  } catch(err){ msg.className = 'msg err'; msg.textContent = err.message; }
+  e.target.value = '';
+});
+$('reset').onclick = () => {
+  try { localStorage.removeItem(LS); } catch(e){}
+  DATA = EMBED; FROM_IMPORT = false; index(); renderAdapt(); renderFooter(); render();
+  $('msg').textContent = 'Retour à la version publiée du plan.';
+};
+
+index(); renderAdapt(); renderFooter(); render();
+</script>
+</body></html>

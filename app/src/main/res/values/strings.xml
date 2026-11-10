@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Programme Ooty</string>
+    <string name="widget_name">Séance du jour</string>
+    <string name="widget_desc">La séance du jour et le compte à rebours avant la prochaine course</string>
+</resources>

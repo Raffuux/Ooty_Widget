@@ -1,0 +1,12 @@
+<resources>
+    <color name="w_bg">#F218221E</color>
+    <color name="w_ink">#E6EDE9</color>
+    <color name="w_muted">#9AA8A1</color>
+    <color name="w_accent">#5CC49A</color>
+    <color name="w_course">#D9B56D</color>
+    <color name="t_dure">#FF7A6E</color>
+    <color name="t_soutenue">#F2A65A</color>
+    <color name="t_facile">#7FB2DC</color>
+    <color name="t_repos">#8D9893</color>
+    <color name="t_vacances">#7BCF86</color>
+</resources>
