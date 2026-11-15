@@ -251,7 +251,7 @@ const RULES = {
            [/progressif|alternance|soutenu/i,'Séance soutenue'], [/sortie longue/i,'Sortie longue'],
            [/footing|activation|reprise/i,'Footing facile'], [/lignes droites/i,'Lignes droites']],
   kick: [[/kickboxing/i,'Kickboxing']],
-  salle: [[/haut du corps/i,'Salle haut du corps'], [/jambes/i,'Salle jambes']],
+  salle: [[/haut du corps/i,'Salle haut du corps'], [/jambes(?!.*pas rattrap)/i,'Salle jambes']],
   routine: [[/tibias/i,'Routine tibias'], [/bassin/i,'Routine bassin'], [/mobilit/i,'Routine mobilité'], [/hanches/i,'Séance hanches']],
 };
 function findLib(text, field){
@@ -269,8 +269,33 @@ function exList(sec){
   if (!sec || !sec.items.length) return '';
   return `<ol class="ex">${sec.items.map(i => `<li><span class="nm">${esc(i.name)}</span>${empty(i.dose)?'':`<span class="ds">${esc(i.dose)}</span>`}<span class="hw">${esc(i.how)}</span></li>`).join('')}</ol>`;
 }
+const coachSec = re => ((DATA.coach && DATA.coach.sections) || []).find(s => re.test(s.title));
+function coachBlocks(text){
+  // Soir A / Soir B and the short evening mobility, as written in the Coach tab
+  let out = '';
+  for (const re of [/^soir a/i, /^soir b/i]) {
+    const key = re.source.slice(1).replace('\\s',' ');
+    if (!new RegExp(key,'i').test(text)) continue;
+    const sec = coachSec(re); if (!sec) continue;
+    out += `<details class="how"><summary>${esc(sec.title)} : les exercices</summary><div class="body">${exList({items: sec.items.map(i => ({name:i[0], dose:i[1], how:i[2]}))})}${sec.notes.map(n => `<p class="rule">${esc(n)}</p>`).join('')}</div></details>`;
+  }
+  return out;
+}
+function coachMobility(){
+  const daily = coachSec(/tous les jours/i);
+  return daily ? daily.items.find(i => /^mobilit/i.test(String(i[0]))) : null;
+}
 function howBlock(text, field){
-  return findLib(text, field).map(s => {
+  let pre = '';
+  if (field === 'routine') {
+    pre = coachBlocks(text || '');
+    const cm = coachMobility();
+    if (cm && /mobilit[ée]\s*8/i.test(text || '')) {
+      pre += `<details class="how"><summary>Mobilité du soir ${esc(cm[1] || '')} : les exercices</summary><div class="body"><p>${esc(String(cm[0]).replace(/^[^:]*:\s*/,''))}</p>${cm[2] ? `<p class="why">${esc(cm[2])}</p>` : ''}</div></details>`;
+      return pre;
+    }
+  }
+  return pre + findLib(text, field).map(s => {
     let extra = '';
     if (/mobilit/i.test(s.name)) extra = exList(mobSection(/quotidienne/i));
     if (/hanches/i.test(s.name)) { const sec = mobSection(/hanches/i); extra = (sec && sec.intro ? `<p class="why">${esc(sec.intro)}</p>` : '') + exList(sec); }
