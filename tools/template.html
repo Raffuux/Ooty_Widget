@@ -91,6 +91,7 @@ ol.ex .hw{font-size:14px;color:var(--muted)}
 .intro{margin:0 0 10px;color:var(--muted);font-size:15px}
 .tbl{overflow-x:auto;padding:0 18px 12px}
 .tbl table{border-collapse:collapse;width:100%;font-size:14px}
+#tests table{min-width:640px}
 .tbl th,.tbl td{text-align:left;vertical-align:top;padding:6px 8px 6px 0;border-top:1px solid var(--line)}
 .tbl thead th{font-family:var(--f-display);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-size:13px;border-top:0}
 .tbl tbody th{font-weight:600}
@@ -150,6 +151,11 @@ nav.days button .bar{background:var(--t,var(--repos))}
     <h3>Le plan du coach</h3>
     <p class="intro" id="coach-intro"></p>
     <div class="card adapt" id="coach"></div>
+  </section>
+
+  <section id="tests-wrap" hidden>
+    <h3 id="tests-title">Tests physiques</h3>
+    <div class="card" id="tests" style="padding-top:12px"></div>
   </section>
 
   <section>
@@ -234,7 +240,11 @@ function parseSheets(sheets, source, updated){
     if (cs && !cs.header && (r[0]==='Quoi' || r[0]==='Jour')) { cs.header = r; return; }
     if (cs) cs.items.push(r.slice(0,3));
   });
-  return {days, lib, adapt, mob, coach, source, updated};
+  // Tests: the row starting with 'Test' is the header, the rows below are results
+  const trows = (sheets['Tests']||[]).filter(r => r && !r.every(empty));
+  const th = trows.findIndex(r => r[0]==='Test');
+  const tests = th < 0 ? null : {title: th > 0 ? trows[0][0] : 'Tests', header: trows[th].map(v => v instanceof Date ? v.toLocaleDateString('fr-FR') : (typeof v === 'number' ? new Date(Date.UTC(1899,11,30)+v*864e5).toLocaleDateString('fr-FR') : v)), rows: trows.slice(th+1).filter(r => !empty(r[0]) && r.slice(1).some(v => !empty(v)))};
+  return {days, lib, adapt, mob, coach, tests, source, updated};
 }
 const EMBED = parseSheets(EMBED_RAW.sheets, EMBED_RAW.source, EMBED_RAW.updated);
 let DATA = EMBED, FROM_IMPORT = false;
@@ -399,6 +409,14 @@ function renderCoach(){
     return `<details ${/semaine type/i.test(s.title) ? 'open' : ''}><summary>${esc(s.title)}</summary><div class="tbl"><table>${head}<tbody>${rows}</tbody></table></div>${s.notes.map(n => `<p>${esc(n)}</p>`).join('')}</details>`;
   }).join('');
 }
+function renderTests(){
+  const t = DATA.tests;
+  $('tests-wrap').hidden = !(t && t.rows.length);
+  if (!t) return;
+  $('tests-title').textContent = t.title;
+  const n = t.header.length;
+  $('tests').innerHTML = `<div class="tbl"><table><thead><tr>${t.header.map(h => `<th scope="col">${esc(h ?? '')}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r => `<tr><th scope="row">${esc(r[0])}</th>${r.slice(1,n).map(v => `<td>${esc(v ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
 function renderAdapt(){
   $('adapt').innerHTML = (DATA.adapt||[]).map(a => `<details><summary>${esc(a.sit)}</summary><p>${esc(a.todo)}</p></details>`).join('');
 }
@@ -422,20 +440,20 @@ $('file').addEventListener('change', async e => {
     if (typeof XLSX === 'undefined') throw new Error("Le lecteur Excel n'a pas pu se charger. Réessaie avec une connexion.");
     const wb = XLSX.read(await f.arrayBuffer(), {type:'array'});
     const sheets = {};
-    ['Coach','Calendrier','Séances','Mobilité','Vacances & imprévus'].forEach(n => { if (wb.Sheets[n]) sheets[n] = XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:true, defval:null}); });
+    ['Coach','Calendrier','Séances','Mobilité','Vacances & imprévus','Tests'].forEach(n => { if (wb.Sheets[n]) sheets[n] = XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:true, defval:null}); });
     const raw = {sheets, source: f.name, updated: iso(new Date())};
     DATA = parseSheets(raw.sheets, raw.source, raw.updated); FROM_IMPORT = true; index();
     try { localStorage.setItem(LS, JSON.stringify(raw)); } catch(err){}
     msg.textContent = `${DATA.days.length} jours chargés depuis ${f.name}.`;
-    renderCoach(); renderAdapt(); renderFooter(); render();
+    renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
   } catch(err){ msg.className = 'msg err'; msg.textContent = err.message; }
   e.target.value = '';
 });
 $('reset').onclick = () => {
   try { localStorage.removeItem(LS); } catch(e){}
-  DATA = EMBED; FROM_IMPORT = false; index(); renderCoach(); renderAdapt(); renderFooter(); render();
+  DATA = EMBED; FROM_IMPORT = false; index(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
   $('msg').textContent = 'Retour à la version publiée du plan.';
 };
 
-index(); renderCoach(); renderAdapt(); renderFooter(); render();
+index(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
 </script>
