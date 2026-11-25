@@ -6,7 +6,7 @@ import openpyxl, json, sys, datetime, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, 'app', 'src', 'main', 'assets')
 KEYS = {'Date':'date','Jour':'jour','Sem.':'sem','Phase':'phase','Course à pied':'course','Km cible':'km','Type':'type',
-        'Kickboxing':'kick','Salle':'salle','Routine':'routine','Événement':'event','Fait ?':'fait','Km réalisé':'kmr',
+        'Kickboxing':'kick','Autre sport':'kick','Salle':'salle','Routine':'routine','Événement':'event','Fait ?':'fait','Km réalisé':'kmr',
         'D+ réalisé':'dpr','Tibias (/10)':'tib','Ressenti':'ressenti'}
 
 def cell(v):
@@ -31,7 +31,7 @@ with open(os.path.join(ASSETS, 'plan.json'), 'w') as f:
 
 # index.html: the dashboard page with the raw tabs embedded
 sheets = {n: [[cell(v) for v in r] for r in wb[n].iter_rows(values_only=True)]
-          for n in ['Coach', 'Calendrier', 'Séances', 'Mobilité', 'Vacances & imprévus', 'Tests'] if n in wb.sheetnames}
+          for n in ['Coach', 'Saison', 'Calendrier', 'Séances', 'Mobilité', 'Vacances & imprévus', 'Tests'] if n in wb.sheetnames}
 data = json.dumps({'sheets': sheets, 'source': 'Planning_Ooty_2027.xlsx', 'updated': today}, ensure_ascii=False, separators=(',', ':'))
 tpl = open(os.path.join(ROOT, 'tools', 'template.html')).read()
 page = tpl.replace('/*DATA*/null/*END*/', '/*DATA*/' + data + '/*END*/')

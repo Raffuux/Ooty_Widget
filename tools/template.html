@@ -91,7 +91,8 @@ ol.ex .hw{font-size:14px;color:var(--muted)}
 .intro{margin:0 0 10px;color:var(--muted);font-size:15px}
 .tbl{overflow-x:auto;padding:0 18px 12px}
 .tbl table{border-collapse:collapse;width:100%;font-size:14px}
-#tests table{min-width:640px}
+#tests table,#saison table{min-width:720px}
+#saison td.ph{font-weight:600;color:var(--accent)}
 .tbl th,.tbl td{text-align:left;vertical-align:top;padding:6px 8px 6px 0;border-top:1px solid var(--line)}
 .tbl thead th{font-family:var(--f-display);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-size:13px;border-top:0}
 .tbl tbody th{font-weight:600}
@@ -147,6 +148,11 @@ nav.days button .bar{background:var(--t,var(--repos))}
     <div class="card"><div class="week" id="week"></div></div>
   </section>
 
+  <section id="saison-wrap" hidden>
+    <h3 id="saison-title">La saison</h3>
+    <div class="card" id="saison" style="padding-top:12px"></div>
+  </section>
+
   <section id="coach-wrap">
     <h3>Le plan du coach</h3>
     <p class="intro" id="coach-intro"></p>
@@ -191,7 +197,7 @@ const fmtKm = k => (k===undefined||k===null||k==='') ? '' : String(Math.round(Nu
 const empty = v => v===null || v===undefined || v==='';
 
 // ---------- Parsing (same code for the published version and for an imported .xlsx)
-const KEYS = {'Date':'date','Jour':'jour','Sem.':'sem','Phase':'phase','Course à pied':'course','Km cible':'km','Type':'type','Kickboxing':'kick','Salle':'salle','Routine':'routine','Événement':'event','Fait ?':'fait','Km réalisé':'kmr','D+ réalisé':'dpr','Tibias (/10)':'tib','Ressenti':'ressenti'};
+const KEYS = {'Date':'date','Jour':'jour','Sem.':'sem','Phase':'phase','Course à pied':'course','Km cible':'km','Type':'type','Kickboxing':'kick','Autre sport':'kick','Salle':'salle','Routine':'routine','Événement':'event','Fait ?':'fait','Km réalisé':'kmr','D+ réalisé':'dpr','Tibias (/10)':'tib','Ressenti':'ressenti'};
 function toIso(v){
   if (typeof v === 'number'){ const d = new Date(Date.UTC(1899,11,30) + Math.round(v)*864e5); return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()); }
   if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v)) return v.slice(0,10);
@@ -244,7 +250,10 @@ function parseSheets(sheets, source, updated){
   const trows = (sheets['Tests']||[]).filter(r => r && !r.every(empty));
   const th = trows.findIndex(r => r[0]==='Test');
   const tests = th < 0 ? null : {title: th > 0 ? trows[0][0] : 'Tests', header: trows[th].map(v => v instanceof Date ? v.toLocaleDateString('fr-FR') : (typeof v === 'number' ? new Date(Date.UTC(1899,11,30)+v*864e5).toLocaleDateString('fr-FR') : v)), rows: trows.slice(th+1).filter(r => !empty(r[0]) && r.slice(1).some(v => !empty(v)))};
-  return {days, lib, adapt, mob, coach, tests, source, updated};
+  const srows = (sheets['Saison']||[]).filter(r => r && !r.every(empty));
+  const sh = srows.findIndex(r => r[0]==='Période');
+  const saison = sh < 0 ? null : {title: sh > 0 ? srows[0][0] : 'La saison', header: srows[sh], rows: srows.slice(sh+1).filter(r => !empty(r[0]))};
+  return {days, lib, adapt, mob, coach, tests, saison, source, updated};
 }
 const EMBED = parseSheets(EMBED_RAW.sheets, EMBED_RAW.source, EMBED_RAW.updated);
 let DATA = EMBED, FROM_IMPORT = false;
@@ -361,8 +370,9 @@ function renderDay(d){
   </div><div class="rows">`;
   const row = (lbl, txt, field, cls='') => `<div class="row ${cls}"><div class="lbl">${lbl}</div><div class="val"><div class="txt">${esc(txt)}</div>${field ? howBlock(txt, field) : ''}</div></div>`;
   if (d.event) html += row('Événement', d.event, null, 'event');
-  if (d.kick && !isRestText(d.kick)) html += row('Kickboxing', d.kick, 'kick');
-  else if (d.kick) html += `<div class="row"><div class="lbl">Kickboxing</div><div class="val"><div class="txt empty">${esc(d.kick)}</div></div></div>`;
+  const kLbl = /kick|boxe/i.test(d.kick||'') ? 'Kickboxing' : 'Autre sport';
+  if (d.kick && !isRestText(d.kick)) html += row(kLbl, d.kick, 'kick');
+  else if (d.kick) html += `<div class="row"><div class="lbl">${kLbl}</div><div class="val"><div class="txt empty">${esc(d.kick)}</div></div></div>`;
   if (d.salle) html += row('Salle', d.salle, 'salle');
   if (d.routine) html += row('Routine', d.routine, 'routine');
   // Daily mobility routine, every evening, unless the Routine column already is the mobility routine
@@ -409,6 +419,14 @@ function renderCoach(){
     return `<details ${/semaine type/i.test(s.title) ? 'open' : ''}><summary>${esc(s.title)}</summary><div class="tbl"><table>${head}<tbody>${rows}</tbody></table></div>${s.notes.map(n => `<p>${esc(n)}</p>`).join('')}</details>`;
   }).join('');
 }
+function renderSaison(){
+  const t = DATA.saison;
+  $('saison-wrap').hidden = !(t && t.rows.length);
+  if (!t) return;
+  $('saison-title').textContent = t.title;
+  const n = t.header.length;
+  $('saison').innerHTML = `<div class="tbl"><table><thead><tr>${t.header.map(h => `<th scope="col">${esc(h ?? '')}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r => `<tr><th scope="row">${esc(r[0])}</th>${r.slice(1,n).map((v,i) => `<td${i===0 ? ' class="ph"' : ''}>${esc(v ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
 function renderTests(){
   const t = DATA.tests;
   $('tests-wrap').hidden = !(t && t.rows.length);
@@ -440,20 +458,20 @@ $('file').addEventListener('change', async e => {
     if (typeof XLSX === 'undefined') throw new Error("Le lecteur Excel n'a pas pu se charger. Réessaie avec une connexion.");
     const wb = XLSX.read(await f.arrayBuffer(), {type:'array'});
     const sheets = {};
-    ['Coach','Calendrier','Séances','Mobilité','Vacances & imprévus','Tests'].forEach(n => { if (wb.Sheets[n]) sheets[n] = XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:true, defval:null}); });
+    ['Coach','Saison','Calendrier','Séances','Mobilité','Vacances & imprévus','Tests'].forEach(n => { if (wb.Sheets[n]) sheets[n] = XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:true, defval:null}); });
     const raw = {sheets, source: f.name, updated: iso(new Date())};
     DATA = parseSheets(raw.sheets, raw.source, raw.updated); FROM_IMPORT = true; index();
     try { localStorage.setItem(LS, JSON.stringify(raw)); } catch(err){}
     msg.textContent = `${DATA.days.length} jours chargés depuis ${f.name}.`;
-    renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
+    renderSaison(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
   } catch(err){ msg.className = 'msg err'; msg.textContent = err.message; }
   e.target.value = '';
 });
 $('reset').onclick = () => {
   try { localStorage.removeItem(LS); } catch(e){}
-  DATA = EMBED; FROM_IMPORT = false; index(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
+  DATA = EMBED; FROM_IMPORT = false; index(); renderSaison(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
   $('msg').textContent = 'Retour à la version publiée du plan.';
 };
 
-index(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
+index(); renderSaison(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
 </script>

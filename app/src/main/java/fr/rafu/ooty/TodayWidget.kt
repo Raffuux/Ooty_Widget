@@ -66,7 +66,7 @@ class TodayWidget : AppWidgetProvider() {
                 views.setTextViewText(R.id.tvCourse, (if (day.done) "✓ " else "") + day.course)
                 val extras = buildList {
                     day.event?.let { add("★ $it") }
-                    day.kick?.takeIf { !it.startsWith("Repos") }?.let { add("🥊 $it") }
+                    day.kick?.takeIf { !it.startsWith("Repos") }?.let { add((if (Regex("kick|boxe", RegexOption.IGNORE_CASE).containsMatchIn(it)) "🥊 " else "◆ ") + it) }
                     day.salle?.let { add("🏋 $it") }
                     day.routine?.let { add("◦ $it") }
                     if (day.routine?.contains("obilit") != true) add("◦ Mobilité 12' ce soir")
