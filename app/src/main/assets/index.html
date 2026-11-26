@@ -270,7 +270,7 @@ const RULES = {
            [/progressif|alternance|soutenu/i,'Séance soutenue'], [/sortie longue/i,'Sortie longue'],
            [/footing|activation|reprise/i,'Footing facile'], [/lignes droites/i,'Lignes droites']],
   kick: [[/kickboxing/i,'Kickboxing']],
-  salle: [[/haut du corps/i,'Salle haut du corps'], [/jambes(?!.*pas rattrap)/i,'Salle jambes']],
+  salle: [[/haut du corps/i,'Salle haut du corps'], [/^(?!.*pas de salle jambes)(?!.*pas rattrap).*jambes/i,'Salle jambes']],
   routine: [[/tibias/i,'Routine tibias'], [/bassin/i,'Routine bassin'], [/mobilit/i,'Routine mobilité'], [/hanches/i,'Séance hanches']],
 };
 function findLib(text, field){
