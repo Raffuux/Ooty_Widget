@@ -290,12 +290,11 @@ function exList(sec){
 }
 const coachSec = re => ((DATA.coach && DATA.coach.sections) || []).find(s => re.test(s.title));
 function coachBlocks(text){
-  // Soir A / Soir B and the short evening mobility, as written in the Coach tab
+  // Soir A/B and Salle A/B, as written in the Coach tab
   let out = '';
-  for (const re of [/^soir a/i, /^soir b/i]) {
-    const key = re.source.slice(1).replace('\\s',' ');
-    if (!new RegExp(key,'i').test(text)) continue;
-    const sec = coachSec(re); if (!sec) continue;
+  for (const key of ['soir a','soir b','salle a','salle b']) {
+    if (!new RegExp('\\b' + key + '\\b','i').test(text)) continue;
+    const sec = coachSec(new RegExp('^' + key + '\\b','i')); if (!sec) continue;
     out += `<details class="how"><summary>${esc(sec.title)} : les exercices</summary><div class="body">${exList({items: sec.items.map(i => ({name:i[0], dose:i[1], how:i[2]}))})}${sec.notes.map(n => `<p class="rule">${esc(n)}</p>`).join('')}</div></details>`;
   }
   return out;
@@ -306,6 +305,10 @@ function coachMobility(){
 }
 function howBlock(text, field){
   let pre = '';
+  if (field === 'salle') {
+    pre = coachBlocks(text || '');
+    if (pre) return pre;
+  }
   if (field === 'routine') {
     pre = coachBlocks(text || '');
     const cm = coachMobility();
