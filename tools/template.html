@@ -182,13 +182,46 @@ dialog.sheet::backdrop{background:rgb(0 0 0/.45)}
 .state{font-size:14px;color:var(--muted)}
 .state.err{color:var(--dure)}
 @media (max-width:420px){.exrow .f{grid-template-columns:1fr}.ed .g2{grid-template-columns:1fr}.rl .it{flex-direction:column;align-items:flex-start}}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--repos-soft);border-radius:10px}
+.seg button{font:inherit;font-family:var(--f-display);font-weight:600;font-size:16px;border:0;border-radius:8px;padding:5px 0;background:transparent;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgb(0 0 0/.12)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.cal .hd{font-family:var(--f-display);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;padding:8px 0 6px;border-bottom:1px solid var(--line)}
+.cal .c{font:inherit;color:inherit;background:none;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-height:86px;padding:4px 2px 5px;display:flex;flex-direction:column;gap:3px;align-items:stretch;text-align:left;cursor:pointer;min-width:0}
+.cal .c:nth-child(7n+7){border-right:0}
+.cal .c.out{opacity:.4}
+.cal .c.nod{cursor:default}
+.cal .c:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.cal .c .dn{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-display);font-weight:700;font-size:16px;line-height:1.1;padding:0 2px}
+.cal .c .dn i{font-style:normal;font-size:11px;color:var(--accent)}
+.cal .c.today .dn span{background:var(--accent);color:var(--surface);border-radius:999px;padding:0 6px}
+.cal .c .ics{display:flex;flex-wrap:wrap;gap:2px}
+.ic{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;font-size:12px;line-height:1;background:var(--b,var(--repos-soft));box-shadow:inset 0 0 0 1px var(--bd,transparent)}
+.cal .c .km{margin-top:auto;font-family:var(--f-mono);font-size:10px;color:var(--muted);padding:0 2px;white-space:nowrap;overflow:hidden}
+.cal .c.done .km{color:var(--accent)}
+.a-run{--b:var(--t-soft,var(--facile-soft));--bd:var(--t,var(--facile))}
+.a-race{--b:var(--course-soft);--bd:var(--course)}
+.a-bike{--b:var(--sout-soft)}
+.a-swim,.a-surf{--b:var(--facile-soft)}
+.a-box{--b:var(--dure-soft)}
+.a-gym{--b:var(--accent-soft)}
+.a-renfo{--b:var(--vac-soft)}
+.a-mob{--b:var(--vac-soft)}
+.a-care{--b:var(--repos-soft)}
+.a-walk{--b:var(--course-soft)}
+.a-other{--b:var(--repos-soft)}
+.cal[hidden],.legend[hidden],ol.wk[hidden]{display:none}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.wrun .ics{display:inline-flex;gap:3px}
+@media (min-width:560px){.cal .c{min-height:100px;padding:6px}.ic{width:24px;height:24px;font-size:14px}.cal .c .km{font-size:11px}}
 @media (prefers-reduced-motion:no-preference){.card{transition:opacity .15s}}
 </style>
 
 <div class="wrap">
   <nav class="tabs" role="tablist" aria-label="Vues">
     <button type="button" role="tab" data-v="jour" aria-selected="true">Jour</button>
-    <button type="button" role="tab" data-v="semaine" aria-selected="false">Semaine</button>
+    <button type="button" role="tab" data-v="semaine" aria-selected="false">Agenda</button>
     <button type="button" role="tab" data-v="exercices" aria-selected="false">Exercices</button>
   </nav>
   <div class="view" id="v-jour">
@@ -243,12 +276,18 @@ dialog.sheet::backdrop{background:rgb(0 0 0/.45)}
       <h1 id="wk-title">—</h1>
       <div class="meta" id="wk-meta"></div>
     </header>
-    <div class="weeknav">
-      <button class="btn" id="wprev" type="button">‹ Semaine</button>
-      <button class="btn primary" id="wtoday" type="button">Cette semaine</button>
-      <button class="btn" id="wnext" type="button">Semaine ›</button>
+    <div class="seg" role="group" aria-label="Affichage">
+      <button type="button" data-am="mois" aria-pressed="true">Mois</button>
+      <button type="button" data-am="semaine" aria-pressed="false">Semaine</button>
     </div>
-    <ol class="wk" id="wk"></ol>
+    <div class="weeknav">
+      <button class="btn" id="wprev" type="button">‹ Mois</button>
+      <button class="btn primary" id="wtoday" type="button">Aujourd'hui</button>
+      <button class="btn" id="wnext" type="button">Mois ›</button>
+    </div>
+    <div class="card cal" id="cal"></div>
+    <div class="legend" id="legend"></div>
+    <ol class="wk" id="wk" hidden></ol>
     <p class="intro">Touche une séance pour voir l'aperçu.</p>
   </div>
 
@@ -616,8 +655,75 @@ function openDayPreview(ds){
     <div class="acts"><button type="button" class="btn" data-goday="${esc(ds)}">Voir toute la journée</button><button type="button" class="btn primary" data-close>Fermer</button></div>`);
 }
 
+
+// ---------- Agenda: one small icon per activity of the day
+const ACT = {
+  run:['🏃','Course'], race:['🏁','Course officielle'], walk:['🥾','Marche en montée'], bike:['🚴','Vélo, elliptique'], swim:['🏊','Natation'], surf:['🏄','Surf'],
+  box:['🥊','Boxe, kick'], gym:['🏋️','Salle'], renfo:['🦵','Renfo tibias, hanches'], mob:['🧘','Mobilité, étirements'], care:['💆','Kiné, MFR, massage'], other:['⚡','Autre sport']
+};
+function acts(d){
+  const out = [], add = k => { if (!out.includes(k)) out.push(k); };
+  const c = String(d.course||''), t = d.type || '';
+  const all = [c, d.kick, d.salle, d.routine, d.event].filter(Boolean).join(' | ');
+  if (t === 'COURSE') add('race');
+  else if (!/^Repos/.test(t) && !/^pas de course|^repos|malade/i.test(c) && !(/^\W*(ellipti|v[ée]lo|spinning|natation|nage|surf)/i.test(c) && !/footing|sortie|course [àa] pied/i.test(c))) {
+    if (/marche|rando|trek/i.test(c) && !/footing|course|sortie/i.test(c)) add('walk'); else add('run');
+  }
+  if (/marche rapide|marche en mont|tapis.*1[0-5] ?%/i.test(all)) add('walk');
+  if (/v[ée]lo|ellipti|spinning/i.test(all)) add('bike');
+  if (/natation|nage|piscine/i.test(all)) add('swim');
+  if (/surf/i.test(all)) add('surf');
+  if (d.kick && !isRestText(d.kick)) { if (/boxe|kick/i.test(d.kick)) add('box'); else if (!/natation|nage|surf|v[ée]lo|ellipti|kin[ée]|mfr|massage|ost[ée]o/i.test(d.kick)) add('other'); }
+  if (d.salle && !/^pas de salle/i.test(d.salle)) add('gym');
+  if (/tibia|soir a\b|soir b\b|mollet|bassin|hanche|renfo|short foot/i.test((d.routine||'') + ' ' + (/salle|muscu/i.test(d.salle||'') ? '' : ''))) add('renfo');
+  if (/mobilit|[ée]tirement|souplesse/i.test(d.routine||'')) add('mob');
+  if (/kin[ée]|mfr|massage|ost[ée]o|dry needling/i.test(all)) add('care');
+  return out;
+}
+const icon = (k, d) => `<span class="ic a-${k}${k==='run' && d ? ' '+typeClass(d.type) : ''}" title="${esc(ACT[k][1])}" aria-hidden="true">${ACT[k][0]}</span>`;
+let AMODE = 'mois';
+try { AMODE = localStorage.getItem('ooty-agenda-mode') || 'mois'; } catch(e){}
+function setAMode(m){
+  AMODE = m; try { localStorage.setItem('ooty-agenda-mode', m); } catch(e){}
+  document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.am === m)));
+  renderWk();
+}
+document.querySelectorAll('.seg button').forEach(b => b.onclick = () => setAMode(b.dataset.am));
+function renderCal(){
+  const today = iso(new Date()), s = parseIso(sel);
+  const first = new Date(s.getFullYear(), s.getMonth(), 1), m = first.getMonth();
+  const start = addDays(iso(first), -((first.getDay()+6)%7));
+  const cells = [];
+  for (let i = 0; i < 42; i++) {
+    const ds = addDays(start, i), dt = parseIso(ds);
+    if (i % 7 === 0 && i >= 28 && dt.getMonth() !== m) break;
+    const d = byDate[ds], out = dt.getMonth() !== m;
+    const a = d ? acts(d) : [];
+    const km = d ? (d.kmr ? fmtKm(d.kmr)+' km' : (d.km ? fmtKm(d.km)+' km' : '')) : '';
+    cells.push(`<button type="button" class="c${out?' out':''}${ds===today?' today':''}${d && d.fait?' done':''}${d?'':' nod'}${d?' '+typeClass(d.type):''}" ${d ? `data-c="${ds}"` : 'disabled'} aria-label="${esc(fmtLong(ds))}${a.length ? ' : '+esc(a.map(k => ACT[k][1]).join(', ')) : ''}">
+      <span class="dn"><span>${dt.getDate()}</span>${d && d.fait ? '<i>✓</i>' : ''}</span>
+      <span class="ics">${a.map(k => icon(k, d)).join('')}</span>
+      <span class="km">${km}</span></button>`);
+  }
+  $('cal').innerHTML = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].map(x => `<div class="hd">${x}</div>`).join('') + cells.join('');
+  $('legend').innerHTML = Object.entries(ACT).map(([k,[e,l]]) => `<span>${icon(k)}${esc(l)}</span>`).join('');
+}
+
 // ---------- Week view
 function renderWk(){
+  const mois = AMODE === 'mois';
+  $('cal').hidden = !mois; $('legend').hidden = !mois; $('wk').hidden = mois;
+  $('wprev').textContent = mois ? '‹ Mois' : '‹ Semaine'; $('wnext').textContent = mois ? 'Mois ›' : 'Semaine ›';
+  if (mois) {
+    const s = parseIso(sel), today = iso(new Date());
+    const mds = DATA.days.filter(d => d.date.slice(0,7) === sel.slice(0,7));
+    $('wk-eyebrow').textContent = sel.slice(0,7) === today.slice(0,7) ? 'Ce mois-ci' : 'Agenda';
+    $('wk-title').textContent = s.toLocaleDateString('fr-FR',{month:'long', year:'numeric'});
+    const kmC = mds.reduce((a,d) => a + (Number(d.km)||0), 0), kmR = mds.reduce((a,d) => a + (Number(d.kmr)||0), 0);
+    $('wk-meta').innerHTML = mds.length ? `<span class="chip">${fmtKm(kmC)} km prévus</span>${kmR ? `<span class="chip">${fmtKm(kmR)} km faits</span>` : ''}<span class="chip">${mds.filter(d => d.fait).length} jours cochés</span>` : '';
+    renderCal();
+    return;
+  }
   const dates = weekDates(sel), today = iso(new Date());
   const ds = dates.map(x => byDate[x]).filter(Boolean);
   const thisWeek = dates.includes(today);
@@ -640,12 +746,13 @@ function renderWk(){
     }
     return `<li class="${typeClass(t)}${x===today?' today':''}"><div class="wd"><span>${JOURS[dt.getDay()]}</span><b>${dt.getDate()}</b></div>
       <div class="wb"><button type="button" class="wrun" data-c="${x}"><span class="ttl">${esc(d.course || 'Pas de course')}</span>
-      <span class="sub"><span class="pill">${esc(rest ? 'Repos' : t)}</span>${d.km ? `<span class="mono">${fmtKm(d.km)} km</span>` : ''}${d.fait ? '<span style="color:var(--accent);font-weight:600">✓ Fait</span>' : ''}</span></button>
+      <span class="sub"><span class="pill">${esc(rest ? 'Repos' : t)}</span><span class="ics">${acts(d).map(k => icon(k, d)).join('')}</span>${d.km ? `<span class="mono">${fmtKm(d.km)} km</span>` : ''}${d.fait ? '<span style="color:var(--accent);font-weight:600">✓ Fait</span>' : ''}</span></button>
       ${chips.length ? `<div class="rchips">${chips.join('')}</div>` : ''}</div></li>`;
   }).join('');
 }
-$('wprev').onclick = () => go(addDays(sel,-7));
-$('wnext').onclick = () => go(addDays(sel,7));
+const shiftMonth = n => { const s = parseIso(sel); const d = new Date(s.getFullYear(), s.getMonth()+n, 1); return iso(d); };
+$('wprev').onclick = () => go(AMODE === 'mois' ? shiftMonth(-1) : addDays(sel,-7));
+$('wnext').onclick = () => go(AMODE === 'mois' ? shiftMonth(1) : addDays(sel,7));
 $('wtoday').onclick = () => go(iso(new Date()));
 
 // ---------- Exercises view: list and editor
@@ -813,5 +920,5 @@ $('reset').onclick = () => {
   $('msg').textContent = 'Retour à la version publiée du plan.';
 };
 
-index(); renderSaison(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render(); show(location.hash.slice(1));
+index(); renderSaison(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render(); setAMode(AMODE === 'semaine' ? 'semaine' : 'mois'); show(location.hash.slice(1));
 </script>
