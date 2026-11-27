@@ -305,6 +305,21 @@
       "nom": "Copenhague levier court (genou)",
       "dosage": "2×20 s/côté",
       "consigne": ""
+     },
+     {
+      "nom": "Abduction couché contre le mur",
+      "dosage": "3×12/côté",
+      "consigne": "Dos et talon glissent le long du mur, pointe un peu vers le bas. 1 s monte, 2 s tenu, 3 s descend. Ça brûle sur le côté de la fesse."
+     },
+     {
+      "nom": "Ours tenu (bear iso)",
+      "dosage": "3×20-30 s",
+      "consigne": "Genoux à 2 cm du sol, dos plat."
+     },
+     {
+      "nom": "Squat hanches en arrière",
+      "dosage": "3×8, goblet 8-12 kg",
+      "consigne": "Tibias presque verticaux, profondeur sans pincement."
      }
     ]
    },
@@ -342,6 +357,21 @@
       "nom": "Équilibre 1 pied yeux fermés",
       "dosage": "3×30 s/côté",
       "consigne": ""
+     },
+     {
+      "nom": "Abduction couché contre le mur",
+      "dosage": "3×15/côté",
+      "consigne": "Dos et talon glissent le long du mur, pointe un peu vers le bas. 1 s monte, 2 s tenu, 3 s descend. Ça brûle sur le côté de la fesse."
+     },
+     {
+      "nom": "Ours tenu (bear iso)",
+      "dosage": "3×20-30 s",
+      "consigne": "Genoux à 2 cm du sol, dos plat."
+     },
+     {
+      "nom": "Squat hanches en arrière",
+      "dosage": "3×8, goblet 8-12 kg",
+      "consigne": "Tibias presque verticaux, profondeur sans pincement."
      }
     ]
    },
@@ -374,6 +404,21 @@
       "nom": "Planche latérale",
       "dosage": "3×40 s/côté",
       "consigne": ""
+     },
+     {
+      "nom": "Abduction couché contre le mur",
+      "dosage": "3×12/côté, élastique",
+      "consigne": "Dos et talon glissent le long du mur, pointe un peu vers le bas. 1 s monte, 2 s tenu, 3 s descend. Ça brûle sur le côté de la fesse."
+     },
+     {
+      "nom": "Ours tenu (bear iso)",
+      "dosage": "3×20-30 s",
+      "consigne": "Genoux à 2 cm du sol, dos plat."
+     },
+     {
+      "nom": "Squat hanches en arrière",
+      "dosage": "3×8, goblet 8-12 kg",
+      "consigne": "Tibias presque verticaux, profondeur sans pincement."
      }
     ]
    }
@@ -388,11 +433,11 @@
   "quotidien": true,
   "match": "hanche gauche",
   "niveau": "1",
-  "notes": "Bloc quotidien du programme « Tibias et hanches ». Côté gauche : 2 répétitions de plus.",
+  "notes": "Tous les jours, avant la mobilité. Va jusqu'au pincement, jamais dedans. Côté gauche : 2 répétitions de plus.",
   "niveaux": {
    "1": {
     "titre": "Bloc quotidien",
-    "duree": "5'",
+    "duree": "6'",
     "quand": "Tous les jours, avant la mobilité du soir",
     "exercices": [
      {
@@ -407,7 +452,7 @@
      },
      {
       "nom": "90/90 décollés",
-      "dosage": "2×5/côté",
+      "dosage": "2×5/côté (+1 série à gauche)",
       "consigne": "Buste droit."
      }
     ]
