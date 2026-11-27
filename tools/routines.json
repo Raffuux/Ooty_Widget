@@ -1,0 +1,781 @@
+{
+ "mobilite": {
+  "nom": "Mobilité du soir",
+  "famille": "Non négociable",
+  "ordre": 1,
+  "quotidien": true,
+  "match": "mobilit",
+  "niveau": "1",
+  "notes": "Tension 6/10 maximum, jamais de douleur. Étirements longs le soir ou après la séance, jamais juste avant une séance dure. 5 à 6 soirs sur 7.",
+  "niveaux": {
+   "1": {
+    "titre": "Express (coach)",
+    "duree": "8'",
+    "quand": "Tous les soirs, même fatigué",
+    "exercices": [
+     {
+      "nom": "Squat profond tenu",
+      "dosage": "1'",
+      "consigne": "Talons au sol (cale si besoin), coudes qui poussent les genoux."
+     },
+     {
+      "nom": "90/90 bascules",
+      "dosage": "10 bascules",
+      "consigne": "Sans les mains, buste droit."
+     },
+     {
+      "nom": "Fente canapé",
+      "dosage": "2×45 s/côté",
+      "consigne": "Fessier arrière serré, bassin rentré."
+     },
+     {
+      "nom": "Genou au mur",
+      "dosage": "10/côté, lent",
+      "consigne": "Seulement si tibias < 2."
+     }
+    ]
+   },
+   "2": {
+    "titre": "Routine complète",
+    "duree": "12'",
+    "quand": "Soirs calmes, après la séance du jour",
+    "exercices": [
+     {
+      "nom": "Squat profond tenu",
+      "dosage": "1 min",
+      "consigne": "Coudes qui poussent les genoux vers l'extérieur."
+     },
+     {
+      "nom": "90/90 bascules",
+      "dosage": "10 bascules + 30 s/côté",
+      "consigne": "Tiens 30 s penché sur la jambe avant."
+     },
+     {
+      "nom": "Fente basse fléchisseur (canapé)",
+      "dosage": "2×45 s/côté",
+      "consigne": "Serre le fessier arrière, bras vers le haut."
+     },
+     {
+      "nom": "Grenouille (adducteurs)",
+      "dosage": "1 min 30",
+      "consigne": "Contracte 5 s, relâche, gagne un peu."
+     },
+     {
+      "nom": "Demi-grand écart (ischios)",
+      "dosage": "45 s/côté",
+      "consigne": "Dos plat, penche-toi depuis les hanches."
+     },
+     {
+      "nom": "Pigeon ou figure 4",
+      "dosage": "45 s/côté",
+      "consigne": "Bassin droit."
+     },
+     {
+      "nom": "Genou au mur (cheville)",
+      "dosage": "10/côté, lent",
+      "consigne": "Pas si tibias à 2 ou plus."
+     },
+     {
+      "nom": "Livre ouvert (thoracique)",
+      "dosage": "8/côté",
+      "consigne": "Suis la main des yeux."
+     }
+    ]
+   },
+   "3": {
+    "titre": "Mobilité active (séance hanches)",
+    "duree": "35'",
+    "quand": "1×/semaine, le samedi après la course, jamais la veille d’une course",
+    "exercices": [
+     {
+      "nom": "Échauffement",
+      "dosage": "5'",
+      "consigne": "Vélo ou corde légère, balanciers de jambes."
+     },
+     {
+      "nom": "90/90 avec décollés",
+      "dosage": "3×5/côté",
+      "consigne": "Décolle le pied arrière puis le genou avant sans te pencher."
+     },
+     {
+      "nom": "Fente cosaque",
+      "dosage": "3×6/côté",
+      "consigne": "Talon au sol, kettlebell goblet quand c’est facile."
+     },
+     {
+      "nom": "Planche de Copenhague",
+      "dosage": "3×20-30 s/côté",
+      "consigne": "Genou sur le banc, puis cheville."
+     },
+     {
+      "nom": "Avions de hanche",
+      "dosage": "3×5/côté, lent",
+      "consigne": "Tiens-toi à un support au début."
+     },
+     {
+      "nom": "Fente canapé active",
+      "dosage": "3×5/côté",
+      "consigne": "Contracte le fessier arrière 5 s, relâche, avance."
+     },
+     {
+      "nom": "Good morning jambes écartées",
+      "dosage": "3×8",
+      "consigne": "Dos plat, remonte en serrant les fessiers."
+     },
+     {
+      "nom": "Contracter-relâcher grand écart",
+      "dosage": "3 tours",
+      "consigne": "Jusqu'à 6/10, pousse 5 s, relâche 3 s, descends un peu."
+     },
+     {
+      "nom": "Squat goblet tenu",
+      "dosage": "2×45 s",
+      "consigne": "Le plus profond possible."
+     }
+    ]
+   }
+  },
+  "maj": "2026-11-27",
+  "majPar": "Claude"
+ },
+ "tibias": {
+  "nom": "Tibias (périostite)",
+  "famille": "Non négociable",
+  "ordre": 2,
+  "quotidien": false,
+  "match": "tibia|soir a\\b|p[ée]riost",
+  "niveau": "1",
+  "notes": "Douleur 0-2 pendant et 0 le lendemain matin : on peut monter. 3 ou plus : on reste au niveau. Mollets 1 pied complets quand tibias à 0 depuis 2 semaines.",
+  "niveaux": {
+   "1": {
+    "titre": "Tenir et contrôler",
+    "duree": "12'",
+    "quand": "Semaine 1 (23-29 nov.), ou dès que les tibias repassent à 3/10",
+    "exercices": [
+     {
+      "nom": "Isométrie mollet au mur",
+      "dosage": "4×30 s",
+      "consigne": "Sur pointes, genoux légèrement fléchis, tenu sans douleur."
+     },
+     {
+      "nom": "Mollets assis (soléaire)",
+      "dosage": "3×15, 10 kg",
+      "consigne": "Charge sur les genoux, montée et descente lentes."
+     },
+     {
+      "nom": "Tibial antérieur au mur",
+      "dosage": "3×20",
+      "consigne": "Talons au sol, pointes qui montent."
+     },
+     {
+      "nom": "Short foot",
+      "dosage": "3×10 s",
+      "consigne": "Raccourcir le pied sans plier les orteils."
+     },
+     {
+      "nom": "Montée sur pointes, balle entre les talons",
+      "dosage": "2×12",
+      "consigne": "Chevilles qui restent droites."
+     },
+     {
+      "nom": "Marche talons puis pointes",
+      "dosage": "1'",
+      "consigne": ""
+     }
+    ]
+   },
+   "2": {
+    "titre": "Freiner",
+    "duree": "15'",
+    "quand": "Semaine 2, si tibias ≤ 2 toute la semaine 1",
+    "exercices": [
+     {
+      "nom": "Pogo 2 pieds",
+      "dosage": "3×20",
+      "consigne": "Petits rebonds, chevilles raides, au sol souple."
+     },
+     {
+      "nom": "Mollets excentriques",
+      "dosage": "3×15/côté",
+      "consigne": "Monte à 2 pieds, descends sur 1 pied en 3 s."
+     },
+     {
+      "nom": "Mollet debout 1 pied",
+      "dosage": "3×12/côté",
+      "consigne": "Amplitude complète."
+     },
+     {
+      "nom": "Mollets assis (soléaire)",
+      "dosage": "3×12, 15 kg",
+      "consigne": ""
+     },
+     {
+      "nom": "Tibial antérieur au mur",
+      "dosage": "3×25",
+      "consigne": ""
+     },
+     {
+      "nom": "Short foot",
+      "dosage": "3×10 s",
+      "consigne": ""
+     }
+    ]
+   },
+   "3": {
+    "titre": "Charger et rebondir",
+    "duree": "18'",
+    "quand": "Semaines 3-4, tibias à 0-1",
+    "exercices": [
+     {
+      "nom": "Pogo 2 pieds",
+      "dosage": "2×30",
+      "consigne": ""
+     },
+     {
+      "nom": "Pogo 1 pied",
+      "dosage": "3×10/côté",
+      "consigne": "Arrête si douleur au-dessus de 2."
+     },
+     {
+      "nom": "Saut et réception tenue (hop and stick)",
+      "dosage": "3×5/côté",
+      "consigne": "Réception 2 s, genou au-dessus du pied."
+     },
+     {
+      "nom": "Mollet debout 1 pied lesté",
+      "dosage": "4×8-10/côté",
+      "consigne": "Haltère en main."
+     },
+     {
+      "nom": "Mollets assis (soléaire)",
+      "dosage": "4×10, 20 kg",
+      "consigne": ""
+     },
+     {
+      "nom": "Tibial au mur 1 pied",
+      "dosage": "3×15/côté",
+      "consigne": ""
+     }
+    ]
+   }
+  },
+  "maj": "2026-11-27",
+  "majPar": "Claude"
+ },
+ "hanches": {
+  "nom": "Hanches et bassin",
+  "famille": "Non négociable",
+  "ordre": 3,
+  "quotidien": false,
+  "match": "soir b\\b|bassin|^(?!.*hanche gauche).*hanches",
+  "niveau": "1",
+  "notes": "2×/semaine max en soir, jamais le jour du kiné ni le jour de la salle jambes. Copenhague à sauter le jour d'un MFR des adducteurs.",
+  "niveaux": {
+   "1": {
+    "titre": "Tenir et contrôler",
+    "duree": "12'",
+    "quand": "Semaine 1",
+    "exercices": [
+     {
+      "nom": "Planche latérale + levée de jambe",
+      "dosage": "3×20-30 s/côté",
+      "consigne": "Bassin haut, ne bascule pas."
+     },
+     {
+      "nom": "Pont fessier 1 jambe, 2 s en haut",
+      "dosage": "3×10/côté",
+      "consigne": "Fessiers qui poussent."
+     },
+     {
+      "nom": "Marche latérale élastique",
+      "dosage": "3×12 pas/côté",
+      "consigne": "Genou qui ne rentre pas."
+     },
+     {
+      "nom": "Équilibre 1 pied",
+      "dosage": "3×30 s/côté",
+      "consigne": "Yeux ouverts."
+     },
+     {
+      "nom": "Inversion / éversion à l’élastique",
+      "dosage": "2×15/côté",
+      "consigne": "Cheville."
+     },
+     {
+      "nom": "Copenhague levier court (genou)",
+      "dosage": "2×20 s/côté",
+      "consigne": ""
+     }
+    ]
+   },
+   "2": {
+    "titre": "Freiner",
+    "duree": "15'",
+    "quand": "Semaine 2",
+    "exercices": [
+     {
+      "nom": "Step-down latéral",
+      "dosage": "3×8/côté",
+      "consigne": "Descente en 3 s, bassin horizontal."
+     },
+     {
+      "nom": "Step-down avant, genou au-dessus du pied",
+      "dosage": "3×8/côté",
+      "consigne": "Descente lente."
+     },
+     {
+      "nom": "Soulevé de terre roumain 1 jambe",
+      "dosage": "3×8/côté",
+      "consigne": "Bassin face au sol."
+     },
+     {
+      "nom": "Planche latérale",
+      "dosage": "3×30 s/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Copenhague levier court",
+      "dosage": "3×25 s/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Équilibre 1 pied yeux fermés",
+      "dosage": "3×30 s/côté",
+      "consigne": ""
+     }
+    ]
+   },
+   "3": {
+    "titre": "Charger",
+    "duree": "18'",
+    "quand": "Semaines 3-4",
+    "exercices": [
+     {
+      "nom": "Bulgarian split squat",
+      "dosage": "3×8/côté",
+      "consigne": "Haltères quand c’est facile."
+     },
+     {
+      "nom": "Step-down latéral lesté",
+      "dosage": "3×8/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Avions de hanche",
+      "dosage": "3×5/côté, lent",
+      "consigne": "Sans appui si possible."
+     },
+     {
+      "nom": "Copenhague levier long (cheville)",
+      "dosage": "3×20 s/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Planche latérale",
+      "dosage": "3×40 s/côté",
+      "consigne": ""
+     }
+    ]
+   }
+  },
+  "maj": "2026-11-27",
+  "majPar": "Claude"
+ },
+ "hanche-gauche": {
+  "nom": "Hanche gauche",
+  "famille": "Non négociable",
+  "ordre": 4,
+  "quotidien": true,
+  "match": "hanche gauche",
+  "niveau": "1",
+  "notes": "Bloc quotidien du programme « Tibias et hanches ». Côté gauche : 2 répétitions de plus.",
+  "niveaux": {
+   "1": {
+    "titre": "Bloc quotidien",
+    "duree": "5'",
+    "quand": "Tous les jours, avant la mobilité du soir",
+    "exercices": [
+     {
+      "nom": "Bascules de bassin à quatre pattes (rockers)",
+      "dosage": "1'",
+      "consigne": "Fesses vers les talons, dos neutre."
+     },
+     {
+      "nom": "Rotation interne isométrique",
+      "dosage": "5×10 s/côté, +2 à gauche",
+      "consigne": "Pousse le pied vers l’extérieur contre une résistance."
+     },
+     {
+      "nom": "90/90 décollés",
+      "dosage": "2×5/côté",
+      "consigne": "Buste droit."
+     }
+    ]
+   },
+   "2": {
+    "titre": "Bloc quotidien renforcé",
+    "duree": "8'",
+    "quand": "Quand le niveau 1 se fait sans gêne",
+    "exercices": [
+     {
+      "nom": "Bascules de bassin à quatre pattes (rockers)",
+      "dosage": "1'",
+      "consigne": ""
+     },
+     {
+      "nom": "Rotation interne isométrique",
+      "dosage": "5×10 s/côté, +2 à gauche",
+      "consigne": ""
+     },
+     {
+      "nom": "90/90 décollés",
+      "dosage": "3×5/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Ours tenu (genoux à 2 cm du sol)",
+      "dosage": "3×20 s",
+      "consigne": "Dos plat."
+     },
+     {
+      "nom": "Squat hanches en arrière, lent",
+      "dosage": "2×8",
+      "consigne": "Descends en reculant les hanches, genoux stables."
+     }
+    ]
+   },
+   "3": {
+    "titre": "Contrôle en charge",
+    "duree": "10'",
+    "quand": "Plus aucune gêne à gauche depuis 2 semaines",
+    "exercices": [
+     {
+      "nom": "90/90 décollés",
+      "dosage": "3×8/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Avions de hanche courts",
+      "dosage": "2×5/côté",
+      "consigne": "Gauche en premier."
+     },
+     {
+      "nom": "Fente cosaque",
+      "dosage": "3×6/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Rotation interne active debout",
+      "dosage": "2×10/côté",
+      "consigne": "Genou plié à 90°, tourne le pied vers l’extérieur."
+     }
+    ]
+   }
+  },
+  "maj": "2026-11-27",
+  "majPar": "Claude"
+ },
+ "salle-a": {
+  "nom": "Salle A : force fessiers-jambes",
+  "famille": "Salle",
+  "ordre": 10,
+  "quotidien": false,
+  "match": "salle a\\b|^(?!.*pas de salle jambes)(?!.*pas rattrap)(?!.*salle b\\b).*jambes",
+  "niveau": "2",
+  "notes": "Finis chaque série en pouvant en faire encore 2. Quand la dernière série passe facilement : +2,5 kg la semaine suivante. Note tes charges.",
+  "niveaux": {
+   "1": {
+    "titre": "Version légère (kiné, tibias à 3)",
+    "duree": "35'",
+    "quand": "Semaine de reprise ou tibias à 3/10",
+    "exercices": [
+     {
+      "nom": "Hip thrust",
+      "dosage": "3×10, modéré",
+      "consigne": "2 s en haut."
+     },
+     {
+      "nom": "Split squat statique",
+      "dosage": "3×8/côté",
+      "consigne": "Sans haltères au début."
+     },
+     {
+      "nom": "Soulevé de terre roumain 1 jambe",
+      "dosage": "3×8/côté, léger",
+      "consigne": ""
+     },
+     {
+      "nom": "Step-down lent sur box basse",
+      "dosage": "3×8/côté",
+      "consigne": "Descente 3 s."
+     },
+     {
+      "nom": "Mollets assis",
+      "dosage": "3×12",
+      "consigne": ""
+     },
+     {
+      "nom": "Relevés de pointe",
+      "dosage": "3×15",
+      "consigne": ""
+     }
+    ]
+   },
+   "2": {
+    "titre": "Force (coach)",
+    "duree": "45'",
+    "quand": "Le mercredi",
+    "exercices": [
+     {
+      "nom": "Hip thrust barre (ou machine)",
+      "dosage": "4×6-8, lourd, 2 s en haut",
+      "consigne": "Grand fessier : la poussée en montée."
+     },
+     {
+      "nom": "Bulgarian split squat, haltères",
+      "dosage": "3×8/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Soulevé de terre roumain 1 jambe, haltère",
+      "dosage": "3×8/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Step-down lent sur box (descente 3 s)",
+      "dosage": "3×8/côté",
+      "consigne": "Les descentes d'Ooty."
+     },
+     {
+      "nom": "Mollets assis lourds (soléaire)",
+      "dosage": "4×10-12",
+      "consigne": "Le muscle n°1 contre la périostite."
+     },
+     {
+      "nom": "Relevés de pointe lestés (tibial)",
+      "dosage": "3×15",
+      "consigne": ""
+     }
+    ]
+   },
+   "3": {
+    "titre": "Force + sauts",
+    "duree": "50'",
+    "quand": "Tibias à 0 depuis 3 semaines",
+    "exercices": [
+     {
+      "nom": "Sauts sur box",
+      "dosage": "3×5",
+      "consigne": "Réception douce, descends en marchant."
+     },
+     {
+      "nom": "Hip thrust barre",
+      "dosage": "4×5, lourd",
+      "consigne": ""
+     },
+     {
+      "nom": "Bulgarian split squat lourd",
+      "dosage": "4×6/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Soulevé de terre roumain 1 jambe",
+      "dosage": "3×8/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Step-down lesté",
+      "dosage": "3×8/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Mollets assis lourds",
+      "dosage": "4×8-10",
+      "consigne": ""
+     },
+     {
+      "nom": "Relevés de pointe lestés",
+      "dosage": "3×15",
+      "consigne": ""
+     }
+    ]
+   }
+  },
+  "maj": "2026-11-27",
+  "majPar": "Claude"
+ },
+ "salle-b": {
+  "nom": "Salle B : fessiers-chevilles",
+  "famille": "Salle",
+  "ordre": 11,
+  "quotidien": false,
+  "match": "salle b\\b",
+  "niveau": "2",
+  "notes": "Moyen fessier, stabilité, chevilles. Remplace la séance hanches.",
+  "niveaux": {
+   "1": {
+    "titre": "Version légère",
+    "duree": "30'",
+    "quand": "Tibias à 3 ou semaine allégée",
+    "exercices": [
+     {
+      "nom": "Step-up sur box basse",
+      "dosage": "3×8/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Abduction hanche machine",
+      "dosage": "3×15/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Pont fessier 1 jambe",
+      "dosage": "3×10/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Copenhague levier court",
+      "dosage": "2×20 s/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Équilibre 1 pied",
+      "dosage": "3×30 s/côté",
+      "consigne": ""
+     }
+    ]
+   },
+   "2": {
+    "titre": "Stabilité (coach)",
+    "duree": "40'",
+    "quand": "Le samedi",
+    "exercices": [
+     {
+      "nom": "Step-up sur box haute (genou à 90°), haltères",
+      "dosage": "3×8/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Abduction hanche à la poulie ou machine",
+      "dosage": "3×12-15/côté",
+      "consigne": "Ta faiblesse : la bascule du bassin."
+     },
+     {
+      "nom": "Pont fessier 1 jambe lesté",
+      "dosage": "3×10/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Copenhague (levier court → long)",
+      "dosage": "3×20-30 s/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Mollets debout 1 pied, haltère",
+      "dosage": "3×10-12/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Équilibre 1 pied instable, yeux ouverts puis fermés",
+      "dosage": "3×30 s/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Avions de hanche",
+      "dosage": "2×5/côté",
+      "consigne": ""
+     }
+    ]
+   },
+   "3": {
+    "titre": "Stabilité + rebonds",
+    "duree": "45'",
+    "quand": "Tibias à 0 depuis 3 semaines",
+    "exercices": [
+     {
+      "nom": "Bonds latéraux, réception tenue",
+      "dosage": "3×6/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Step-up box haute lesté",
+      "dosage": "4×6/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Abduction hanche poulie",
+      "dosage": "3×12/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Copenhague levier long",
+      "dosage": "3×30 s/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Mollets debout 1 pied lesté",
+      "dosage": "4×8/côté",
+      "consigne": ""
+     },
+     {
+      "nom": "Avions de hanche sans appui",
+      "dosage": "3×5/côté",
+      "consigne": ""
+     }
+    ]
+   }
+  },
+  "maj": "2026-11-27",
+  "majPar": "Claude"
+ },
+ "haut": {
+  "nom": "Salle haut du corps",
+  "famille": "Salle",
+  "ordre": 12,
+  "quotidien": false,
+  "match": "haut du corps",
+  "niveau": "1",
+  "notes": "Dos large et épaules. RPE 7.",
+  "niveaux": {
+   "1": {
+    "titre": "Haut du corps",
+    "duree": "45'",
+    "quand": "Le lundi soir",
+    "exercices": [
+     {
+      "nom": "Tractions",
+      "dosage": "4×max",
+      "consigne": ""
+     },
+     {
+      "nom": "Rowing",
+      "dosage": "3×8-10",
+      "consigne": ""
+     },
+     {
+      "nom": "Élévations latérales",
+      "dosage": "4×12-15",
+      "consigne": ""
+     },
+     {
+      "nom": "Développé militaire",
+      "dosage": "3×8-10",
+      "consigne": ""
+     },
+     {
+      "nom": "Oiseau",
+      "dosage": "3×15",
+      "consigne": ""
+     },
+     {
+      "nom": "Dips",
+      "dosage": "3×10-12",
+      "consigne": ""
+     }
+    ]
+   }
+  },
+  "maj": "2026-11-27",
+  "majPar": "Claude"
+ }
+}

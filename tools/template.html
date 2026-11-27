@@ -122,10 +122,76 @@ footer .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .t-Repos{--t:var(--repos);--t-soft:var(--repos-soft)}
 nav.days button .bar{background:var(--t,var(--repos))}
 @media (max-width:420px){header h1{font-size:36px}.run h2{font-size:25px}.row{grid-template-columns:1fr;gap:4px}nav.days button .n{font-size:19px}nav.days button .k{display:none}}
+.tabs{position:sticky;top:6px;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 10px rgb(0 0 0/.06)}
+.tabs button{font:inherit;font-family:var(--f-display);font-weight:600;font-size:17px;letter-spacing:.03em;border:0;background:transparent;color:var(--muted);border-radius:999px;padding:7px 0;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--surface)}
+.view{display:flex;flex-direction:column;gap:18px}
+.view[hidden]{display:none}
+.rchips{display:flex;flex-wrap:wrap;gap:6px}
+.rchip{font:inherit;font-size:14px;font-weight:600;line-height:1.3;display:inline-flex;gap:6px;align-items:baseline;padding:5px 11px;border-radius:999px;border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent);cursor:pointer;text-align:left;max-width:100%}
+.rchip small{font-family:var(--f-mono);font-size:12px;font-weight:500;opacity:.85;white-space:nowrap}
+.rchip.plain{border-color:var(--line);background:var(--bg);color:var(--ink)}
+.rchip.ev{border-color:var(--course);background:var(--course-soft);color:var(--course);cursor:default}
+.rchip:focus-visible,.tabs button:focus-visible,.wrun:focus-visible,.ib:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+ol.wk{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+ol.wk > li{display:grid;grid-template-columns:46px 1fr;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--t,var(--repos));border-radius:12px}
+ol.wk > li.today{outline:2px solid var(--accent);outline-offset:-1px}
+.wd{display:flex;flex-direction:column;align-items:center;gap:2px;padding-top:2px}
+.wd span{font-family:var(--f-display);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.wd b{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1}
+.wb{min-width:0;display:flex;flex-direction:column;gap:8px}
+.wrun{font:inherit;color:inherit;text-align:left;background:none;border:0;padding:0;cursor:pointer;display:flex;flex-direction:column;gap:3px;min-width:0}
+.wrun .ttl{font-weight:600;line-height:1.35}
+.wrun .sub{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.wrun .pill{font-size:12px;padding:1px 8px}
+dialog.sheet{border:0;padding:0;margin:auto auto 0;width:100%;max-width:620px;max-height:90vh;border-radius:18px 18px 0 0;background:var(--surface);color:var(--ink);box-shadow:0 -8px 30px rgb(0 0 0/.2)}
+@media (min-width:700px){dialog.sheet{margin:auto;border-radius:18px}}
+dialog.sheet::backdrop{background:rgb(0 0 0/.45)}
+.sheet .in{padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;overflow:auto;max-height:90vh}
+.sheet h2{font-size:30px;font-weight:700}
+.sheet .lvline{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--muted);font-size:15px}
+.sheet .acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;padding-top:4px}
+.sheet .alt{font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.lvb{font-family:var(--f-mono);font-size:12px;font-weight:500;padding:1px 7px;border-radius:6px;background:var(--accent);color:var(--surface);white-space:nowrap}
+.linkbtn{font:inherit;font-size:14px;background:none;border:0;padding:0;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.rl{display:flex;flex-direction:column}
+.rl .it{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
+.rl .it:first-child{border-top:0}
+.rl .it .nm{font-weight:600}
+.rl .it .sub{font-size:14px;color:var(--muted)}
+.rl .it .bt{display:flex;gap:6px;flex-shrink:0}
+.ed{display:flex;flex-direction:column;gap:14px;padding:16px}
+.ed label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
+.ed label.ck{flex-direction:row;align-items:center;gap:8px;font-size:15px;color:var(--ink);font-weight:500}
+.ed input[type=text],.ed textarea,.ed select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.ed input:focus,.ed textarea:focus,.ed select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+.ed .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ed h4{margin:0;font-family:var(--f-display);font-size:18px;font-weight:600}
+.lvtabs{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.lvtabs .btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.exrow{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.exrow .f{display:grid;grid-template-columns:1fr 150px;gap:6px;min-width:0}
+.exrow .f .c{grid-column:1/-1}
+.exrow .ed input[type=text]{background:var(--surface)}
+.exrow input[type=text]{background:var(--surface)!important}
+.exrow .mv{display:flex;flex-direction:column;gap:4px}
+.ib{font:inherit;font-size:15px;width:34px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;padding:0}
+.ib:disabled{opacity:.35;cursor:default}
+.ed .bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center;position:sticky;bottom:0;background:var(--surface);padding:10px 0 2px;border-top:1px solid var(--line)}
+.btn.danger{color:var(--dure);border-color:var(--dure)}
+.state{font-size:14px;color:var(--muted)}
+.state.err{color:var(--dure)}
+@media (max-width:420px){.exrow .f{grid-template-columns:1fr}.ed .g2{grid-template-columns:1fr}.rl .it{flex-direction:column;align-items:flex-start}}
 @media (prefers-reduced-motion:no-preference){.card{transition:opacity .15s}}
 </style>
 
 <div class="wrap">
+  <nav class="tabs" role="tablist" aria-label="Vues">
+    <button type="button" role="tab" data-v="jour" aria-selected="true">Jour</button>
+    <button type="button" role="tab" data-v="semaine" aria-selected="false">Semaine</button>
+    <button type="button" role="tab" data-v="exercices" aria-selected="false">Exercices</button>
+  </nav>
+  <div class="view" id="v-jour">
   <header>
     <div class="eyebrow" id="hdr-eyebrow">Aujourd'hui</div>
     <h1 id="hdr-date">—</h1>
@@ -169,6 +235,33 @@ nav.days button .bar{background:var(--t,var(--repos))}
     <div class="card adapt" id="adapt"></div>
   </section>
 
+  </div>
+
+  <div class="view" id="v-semaine" hidden>
+    <header>
+      <div class="eyebrow" id="wk-eyebrow">Cette semaine</div>
+      <h1 id="wk-title">—</h1>
+      <div class="meta" id="wk-meta"></div>
+    </header>
+    <div class="weeknav">
+      <button class="btn" id="wprev" type="button">‹ Semaine</button>
+      <button class="btn primary" id="wtoday" type="button">Cette semaine</button>
+      <button class="btn" id="wnext" type="button">Semaine ›</button>
+    </div>
+    <ol class="wk" id="wk"></ol>
+    <p class="intro">Touche une séance pour voir l'aperçu.</p>
+  </div>
+
+  <div class="view" id="v-exercices" hidden>
+    <header>
+      <div class="eyebrow">Ta bibliothèque</div>
+      <h1>Exercices</h1>
+      <p class="intro" style="margin:0">Tes routines non négociables et tes séances de salle, en niveaux 1, 2 et 3. Le niveau actuel est celui qui s'affiche dans le jour et la semaine. Après une modif, dis-le-moi dans le chat : je relis et je te dis ce que j'en pense.</p>
+      <div class="state" id="dbstate" role="status"></div>
+    </header>
+    <div id="exos"></div>
+  </div>
+
   <footer>
     <div id="srcline"></div>
     <div class="actions">
@@ -179,10 +272,13 @@ nav.days button .bar{background:var(--t,var(--repos))}
     <div class="msg" id="msg" role="status"></div>
   </footer>
 </div>
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-title"><div class="in" id="sheet-in"></div></dialog>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 const EMBED_RAW = /*DATA*/null/*END*/;
+const EMBED_ROUT = /*ROUT*/null/*ENDR*/;
+const ART_URL = 'https://claude.ai/artifact/5dDrfPifE48zEW425EJ8PN';
 const LS = 'ooty-plan-import-v2';
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2,'0');
@@ -305,6 +401,10 @@ function coachMobility(){
 }
 function howBlock(text, field){
   let pre = '';
+  if (field === 'salle' || field === 'routine') {
+    const rs = routMatch(text);
+    if (rs.length) return `<div class="rchips">${rs.map(rchip).join('')}</div>`;
+  }
   if (field === 'salle') {
     pre = coachBlocks(text || '');
     if (pre) return pre;
@@ -380,7 +480,11 @@ function renderDay(d){
   if (d.routine) html += row('Routine', d.routine, 'routine');
   // Daily mobility routine, every evening, unless the Routine column already is the mobility routine
   const dmob = mobSection(/quotidienne/i);
-  if (dmob && !/mobilit/i.test(d.routine||'')) {
+  const shown = new Set(routMatch((d.salle||'')+' | '+(d.routine||'')).map(r => r.id));
+  const qd = routList().filter(r => r.quotidien && !shown.has(r.id));
+  if (qd.length) {
+    html += `<div class="row"><div class="lbl">Le soir</div><div class="val"><div class="rchips">${qd.map(rchip).join('')}</div></div></div>`;
+  } else if (dmob && !/mobilit/i.test(d.routine||'')) {
     html += `<div class="row"><div class="lbl">Le soir</div><div class="val"><div class="txt">${esc(dmob.title.replace(/\s*:.*$/,''))}</div>
       <details class="how"><summary>Les ${dmob.items.length} exercices</summary><div class="body">${exList(dmob)}${DATA.mob.rules ? `<p class="rule">${esc(DATA.mob.rules)}</p>` : ''}</div></details></div></div>`;
   }
@@ -446,12 +550,245 @@ function renderFooter(){
   $('srcline').textContent = FROM_IMPORT ? `Source : ${DATA.source}, importé le ${when} sur cet appareil.` : `Source : ${DATA.source}, version du ${when}.`;
   $('reset').hidden = !FROM_IMPORT;
 }
-function render(){ const d = byDate[sel]; renderHeader(d); renderCountdowns(); renderDays(); renderDay(d); renderWeek(); }
+function render(){ const d = byDate[sel]; renderHeader(d); renderCountdowns(); renderDays(); renderDay(d); renderWeek(); renderWk(); }
 function go(ds){ sel = ds; render(); }
 $('prev').onclick = () => go(addDays(sel,-1));
 $('next').onclick = () => go(addDays(sel,1));
 $('todayBtn').onclick = () => go(iso(new Date()));
 document.addEventListener('keydown', e => { if (e.target.tagName==='INPUT') return; if (e.key==='ArrowLeft') go(addDays(sel,-1)); if (e.key==='ArrowRight') go(addDays(sel,1)); });
+
+
+// ---------- Routines database (levels 1-2-3), shared through the artifact's db
+let ROUT = EMBED_ROUT || {}, DB = null, DBSTATE = 'off', CANWRITE = false, EDIT = null;
+const FAMILLES = ['Non négociable','Salle','Autre'];
+const clone = o => JSON.parse(JSON.stringify(o));
+const routList = () => Object.entries(ROUT).map(([id,r]) => Object.assign({id}, r)).sort((a,b) => (a.ordre??99)-(b.ordre??99) || String(a.nom).localeCompare(String(b.nom)));
+const lvKeys = r => Object.keys(r.niveaux||{}).sort((a,b) => Number(a)-Number(b));
+const lvOf = (r, k) => (r.niveaux||{})[k ?? r.niveau] || (r.niveaux||{})[lvKeys(r)[0]] || {titre:'', duree:'', quand:'', exercices:[]};
+function routMatch(text){
+  if (!text) return [];
+  return routList().filter(r => { if (!r.match) return false; try { return new RegExp(r.match,'i').test(text); } catch(e){ return false; } });
+}
+const rchip = r => { const l = lvOf(r); return `<button type="button" class="rchip" data-r="${esc(r.id)}">${esc(r.nom)} <small>N${esc(r.niveau)}${l.duree ? ' · '+esc(l.duree) : ''}</small></button>`; };
+
+function sheetOpen(html){
+  $('sheet-in').innerHTML = html;
+  const s = $('sheet');
+  if (typeof s.showModal === 'function') { if (!s.open) s.showModal(); } else s.setAttribute('open','');
+  $('sheet-in').scrollTop = 0;
+}
+function sheetClose(){ const s = $('sheet'); if (s.open && s.close) s.close(); else s.removeAttribute('open'); }
+$('sheet').addEventListener('click', e => { if (e.target === $('sheet')) sheetClose(); });
+
+function openRoutine(id, k){
+  const r = routList().find(x => x.id === id); if (!r) return;
+  k = k || r.niveau;
+  const l = lvOf(r, k), cur = String(k) === String(r.niveau);
+  const items = (l.exercices||[]).map(x => ({name:x.nom, dose:x.dosage, how:x.consigne}));
+  const keys = lvKeys(r);
+  const others = keys.filter(x => x !== String(k)).map(x => `<button type="button" class="linkbtn" data-r="${esc(id)}" data-l="${esc(x)}">Voir le niveau ${esc(x)}${x===String(r.niveau)?' (actuel)':''}</button>`).join(' · ');
+  const easy = cur && String(k) !== keys[0] ? lvOf(r, keys[0]) : null;
+  sheetOpen(`<div class="eyebrow">${esc(r.famille||'')}</div>
+    <h2 id="sheet-title">${esc(r.nom)}</h2>
+    <div class="lvline"><span class="lvb">Niveau ${esc(k)}${cur?' · actuel':''}</span>${l.titre ? `<strong>${esc(l.titre)}</strong>` : ''}${l.duree ? `<span class="mono">${esc(l.duree)}</span>` : ''}</div>
+    ${l.quand ? `<p class="why" style="margin:0">${esc(l.quand)}</p>` : ''}
+    ${items.length ? exList({items}) : '<p class="empty">Aucun exercice pour ce niveau.</p>'}
+    ${r.notes ? `<p class="rule">${esc(r.notes)}</p>` : ''}
+    ${easy ? `<p class="alt">Pas le temps ou pas en forme : fais le niveau ${esc(keys[0])}${easy.duree ? ' ('+esc(easy.duree)+')' : ''}. <button type="button" class="linkbtn" data-r="${esc(id)}" data-l="${esc(keys[0])}">Le voir</button></p>` : ''}
+    ${others ? `<p class="alt" style="border:0;padding:0">${others}</p>` : ''}
+    <div class="acts">${DB ? `<button type="button" class="btn" data-edit="${esc(id)}" data-l="${esc(k)}">Modifier</button>` : ''}<button type="button" class="btn primary" data-close>Fermer</button></div>`);
+}
+function openDayPreview(ds){
+  const d = byDate[ds];
+  if (!d) return;
+  const t = d.type || 'Repos course', rest = /^Repos/.test(t);
+  const lines = [];
+  if (d.event) lines.push(`<div class="row event"><div class="lbl">Événement</div><div class="val"><div class="txt">${esc(d.event)}</div></div></div>`);
+  if (d.kick) lines.push(`<div class="row"><div class="lbl">${/kick|boxe/i.test(d.kick) ? 'Kickboxing' : 'Autre sport'}</div><div class="val"><div class="txt${isRestText(d.kick)?' empty':''}">${esc(d.kick)}</div></div></div>`);
+  if (d.salle) lines.push(`<div class="row"><div class="lbl">Salle</div><div class="val"><div class="txt">${esc(d.salle)}</div>${howBlock(d.salle,'salle')}</div></div>`);
+  if (d.routine) lines.push(`<div class="row"><div class="lbl">Routine</div><div class="val"><div class="txt">${esc(d.routine)}</div>${howBlock(d.routine,'routine')}</div></div>`);
+  const lib = rest ? [] : findLib(d.course, 'course');
+  sheetOpen(`<div class="eyebrow">${esc(fmtLong(ds))}</div>
+    <h2 id="sheet-title">${esc(d.course || 'Pas de course')}</h2>
+    <div class="lvline"><span class="pill ${typeClass(t)}" style="background:var(--t)">${esc(rest ? 'Repos course' : t)}</span>${d.km ? `<span class="mono">${fmtKm(d.km)} km</span>` : ''}${d.fait ? '<strong style="color:var(--accent)">✓ Fait</strong>' : ''}</div>
+    ${lib.map(s => `<p style="margin:0">${esc(s.how)}</p>${s.why ? `<p class="why" style="margin:0">Pourquoi : ${esc(s.why)}</p>` : ''}`).join('')}
+    ${lines.length ? `<div class="rows" style="margin:0 -18px">${lines.join('')}</div>` : ''}
+    <div class="acts"><button type="button" class="btn" data-goday="${esc(ds)}">Voir toute la journée</button><button type="button" class="btn primary" data-close>Fermer</button></div>`);
+}
+
+// ---------- Week view
+function renderWk(){
+  const dates = weekDates(sel), today = iso(new Date());
+  const ds = dates.map(x => byDate[x]).filter(Boolean);
+  const thisWeek = dates.includes(today);
+  $('wk-eyebrow').textContent = thisWeek ? 'Cette semaine' : (dates[0] > today ? 'Semaine à venir' : 'Semaine passée');
+  $('wk-title').textContent = `${parseIso(dates[0]).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})} – ${parseIso(dates[6]).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}`;
+  const kmC = ds.reduce((a,d) => a + (Number(d.km)||0), 0);
+  $('wk-meta').innerHTML = ds.length ? `<span class="chip">Semaine ${esc(ds[0].sem)}</span><span class="chip">${esc(ds[0].phase)}</span><span class="chip">${fmtKm(kmC)} km prévus</span>` : '';
+  $('wk').innerHTML = dates.map(x => {
+    const d = byDate[x], dt = parseIso(x);
+    if (!d) return `<li class="t-Repos"><div class="wd"><span>${JOURS[dt.getDay()]}</span><b>${dt.getDate()}</b></div><div class="wb"><span class="empty">Hors plan</span></div></li>`;
+    const t = d.type || 'Repos course', rest = /^Repos/.test(t);
+    const chips = [];
+    if (d.event) chips.push(`<span class="rchip ev">${esc(d.event)}</span>`);
+    if (d.kick && !isRestText(d.kick)) chips.push(`<button type="button" class="rchip plain" data-c="${x}">${/kick|boxe/i.test(d.kick) ? '🥊 ' : ''}${esc(d.kick)}</button>`);
+    for (const [txt] of [[d.salle],[d.routine]]) {
+      if (!txt) continue;
+      const rs = routMatch(txt);
+      if (rs.length) rs.forEach(r => { if (!chips.some(c => c.includes(`data-r="${esc(r.id)}"`))) chips.push(rchip(r)); });
+      else chips.push(`<button type="button" class="rchip plain" data-c="${x}">${esc(txt)}</button>`);
+    }
+    return `<li class="${typeClass(t)}${x===today?' today':''}"><div class="wd"><span>${JOURS[dt.getDay()]}</span><b>${dt.getDate()}</b></div>
+      <div class="wb"><button type="button" class="wrun" data-c="${x}"><span class="ttl">${esc(d.course || 'Pas de course')}</span>
+      <span class="sub"><span class="pill">${esc(rest ? 'Repos' : t)}</span>${d.km ? `<span class="mono">${fmtKm(d.km)} km</span>` : ''}${d.fait ? '<span style="color:var(--accent);font-weight:600">✓ Fait</span>' : ''}</span></button>
+      ${chips.length ? `<div class="rchips">${chips.join('')}</div>` : ''}</div></li>`;
+  }).join('');
+}
+$('wprev').onclick = () => go(addDays(sel,-7));
+$('wnext').onclick = () => go(addDays(sel,7));
+$('wtoday').onclick = () => go(iso(new Date()));
+
+// ---------- Exercises view: list and editor
+function dbStateText(){
+  const n = Object.keys(ROUT).length;
+  if (DBSTATE === 'live') return CANWRITE ? `${n} routines, enregistrées en ligne. Tes modifs se retrouvent partout où tu ouvres cette page.` : `${n} routines. Tu peux les consulter, pas les modifier avec ce compte.`;
+  if (DBSTATE === 'loading') return 'Chargement de tes routines…';
+  if (DBSTATE === 'slow') return 'La base ne répond pas encore. Ce que tu vois peut dater un peu.';
+  if (DBSTATE === 'err') return "La base n'est pas joignable pour l'instant : lecture seule.";
+  return `Lecture seule ici. Pour modifier tes routines, ouvre la page sur claude.ai : ${ART_URL}`;
+}
+function renderExos(){
+  const st = $('dbstate'); st.textContent = dbStateText(); st.className = 'state' + (DBSTATE==='err' ? ' err' : '');
+  if (EDIT) return renderEditor();
+  const list = routList();
+  const fams = [...new Set([...FAMILLES.filter(f => list.some(r => r.famille === f)), ...list.map(r => r.famille || 'Autre')])];
+  $('exos').innerHTML = (list.length ? fams.map(f => `<section><h3>${esc(f)}</h3><div class="card rl">${list.filter(r => (r.famille||'Autre') === f).map(r => { const l = lvOf(r); return `<div class="it"><div><div class="nm">${esc(r.nom)}${r.quotidien ? ' <span class="chip" style="font-size:13px;padding:0 8px">tous les jours</span>' : ''}</div>
+      <div class="sub"><span class="lvb">N${esc(r.niveau)}</span> ${esc(l.titre||'')}${l.duree ? ' · '+esc(l.duree) : ''} · ${lvKeys(r).length} niveau${lvKeys(r).length>1?'x':''}</div></div>
+      <div class="bt"><button type="button" class="btn" data-r="${esc(r.id)}">Aperçu</button>${canEdit() ? `<button type="button" class="btn" data-edit="${esc(r.id)}">Modifier</button>` : ''}</div></div>`; }).join('')}</div></section>`).join('')
+    : '<p class="empty">Aucune routine pour l\'instant.</p>')
+    + (canEdit() ? `<div><button type="button" class="btn primary" id="newr">+ Nouvelle routine</button></div>` : '');
+  const nb = $('newr'); if (nb) nb.onclick = () => {
+    const ordre = Math.max(0, ...list.map(r => Number(r.ordre)||0)) + 1;
+    EDIT = {id: 'r-' + Date.now().toString(36), isNew: true, lv: '1', confirmDel: false, draft: {nom:'Nouvelle routine', famille:'Non négociable', ordre, quotidien:false, match:'', niveau:'1', notes:'', niveaux:{'1':{titre:'', duree:'', quand:'', exercices:[{nom:'', dosage:'', consigne:''}]}}}};
+    renderExos(); window.scrollTo(0,0);
+  };
+}
+const canEdit = () => !!DB && CANWRITE && (DBSTATE === 'live' || DBSTATE === 'slow');
+function startEdit(id, k){
+  const r = ROUT[id]; if (!r) return;
+  EDIT = {id, isNew:false, lv: String(k || r.niveau || lvKeys(r)[0] || '1'), confirmDel:false, draft: clone(r)};
+  sheetClose(); show('exercices'); renderExos(); window.scrollTo(0,0);
+}
+function renderEditor(){
+  const e = EDIT, r = e.draft;
+  if (!r.niveaux[e.lv]) e.lv = lvKeys(r)[0];
+  const l = r.niveaux[e.lv], keys = lvKeys(r), exs = l.exercices || (l.exercices = []);
+  const inp = (f, v, ph='', cls='') => `<input type="text" data-f="${f}" value="${esc(v ?? '')}" placeholder="${esc(ph)}"${cls ? ` class="${cls}"` : ''}>`;
+  $('exos').innerHTML = `<div class="card"><div class="ed">
+    <div><button type="button" class="linkbtn" data-cancel>‹ Retour à la liste</button></div>
+    <label>Nom de la routine ${inp('nom', r.nom)}</label>
+    <div class="g2"><label>Famille <select data-f="famille">${FAMILLES.map(f => `<option${f===r.famille?' selected':''}>${esc(f)}</option>`).join('')}</select></label>
+    <label class="ck" style="align-self:end;padding-bottom:8px"><input type="checkbox" data-f="quotidien"${r.quotidien?' checked':''}> Tous les jours (le soir)</label></div>
+    <h4>Niveaux</h4>
+    <div class="lvtabs">${keys.map(k => `<button type="button" class="btn" data-lv="${esc(k)}" aria-pressed="${k===e.lv}">N${esc(k)}${k===String(r.niveau)?' ✓':''}</button>`).join('')}${keys.length < 5 ? `<button type="button" class="btn" data-addlv>+ Niveau</button>` : ''}</div>
+    <div class="lvline" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:15px">${String(r.niveau)===e.lv ? `<span class="lvb">C'est ton niveau actuel</span>` : `<button type="button" class="btn primary" data-setlv>Passer au niveau ${esc(e.lv)}</button>`}${keys.length > 1 ? `<button type="button" class="linkbtn" data-dellv style="color:var(--dure)">Supprimer ce niveau</button>` : ''}</div>
+    <div class="g2"><label>Titre du niveau ${inp('lv.titre', l.titre, 'Ex. : Tenir et contrôler')}</label><label>Durée ${inp('lv.duree', l.duree, "Ex. : 12'")}</label></div>
+    <label>Quand le faire ${inp('lv.quand', l.quand, 'Ex. : semaine 2, si tibias ≤ 2')}</label>
+    <h4>Exercices du niveau ${esc(e.lv)}</h4>
+    ${exs.map((x,i) => `<div class="exrow"><div class="f">${inp('ex.'+i+'.nom', x.nom, 'Exercice')}${inp('ex.'+i+'.dosage', x.dosage, 'Dosage (3×15)')}${inp('ex.'+i+'.consigne', x.consigne, 'Consigne (facultatif)', 'c')}</div>
+      <div class="mv"><button type="button" class="ib" data-mv="${i}" data-d="-1" aria-label="Monter" ${i===0?'disabled':''}>↑</button><button type="button" class="ib" data-mv="${i}" data-d="1" aria-label="Descendre" ${i===exs.length-1?'disabled':''}>↓</button><button type="button" class="ib" data-rm="${i}" aria-label="Supprimer l'exercice">✕</button></div></div>`).join('')}
+    <div><button type="button" class="btn" data-addex>+ Ajouter un exercice</button></div>
+    <label>Notes (règles, progression) <textarea rows="3" data-f="notes">${esc(r.notes||'')}</textarea></label>
+    <details class="how"><summary>Réglage avancé</summary><div class="body"><label>Mots du plan qui affichent cette routine (expression régulière, ex. « tibia|soir a ») ${inp('match', r.match)}</label></div></details>
+    <div class="bar"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn primary" data-save>Enregistrer</button><button type="button" class="btn" data-cancel>Annuler</button></div>
+      ${e.isNew ? '' : (e.confirmDel ? `<button type="button" class="btn danger" data-delr="1">Confirmer la suppression</button>` : `<button type="button" class="btn danger" data-delr="0">Supprimer la routine</button>`)}</div>
+    <div class="state" id="edmsg" role="status"></div>
+  </div></div>`;
+}
+$('exos').addEventListener('input', ev => {
+  if (!EDIT) return;
+  const f = ev.target.dataset.f; if (!f) return;
+  const r = EDIT.draft, v = ev.target.type === 'checkbox' ? ev.target.checked : ev.target.value;
+  if (f.startsWith('lv.')) r.niveaux[EDIT.lv][f.slice(3)] = v;
+  else if (f.startsWith('ex.')) { const [,i,k] = f.split('.'); r.niveaux[EDIT.lv].exercices[Number(i)][k] = v; }
+  else r[f] = v;
+});
+$('exos').addEventListener('change', ev => { if (ev.target.tagName === 'SELECT' || ev.target.type === 'checkbox') ev.target.dispatchEvent(new Event('input', {bubbles:true})); });
+$('exos').addEventListener('click', async ev => {
+  const b = ev.target.closest('button'); if (!b || !EDIT) return;
+  const e = EDIT, r = e.draft, ds = b.dataset;
+  const exs = () => r.niveaux[e.lv].exercices;
+  if ('cancel' in ds) { EDIT = null; renderExos(); return; }
+  if ('lv' in ds) { e.lv = ds.lv; }
+  else if ('addlv' in ds) { const n = String(Math.max(0, ...lvKeys(r).map(Number)) + 1); r.niveaux[n] = clone(r.niveaux[e.lv]); r.niveaux[n].titre = ''; e.lv = n; }
+  else if ('setlv' in ds) { r.niveau = e.lv; }
+  else if ('dellv' in ds) { delete r.niveaux[e.lv]; if (!r.niveaux[r.niveau]) r.niveau = lvKeys(r)[0]; e.lv = r.niveau; }
+  else if ('addex' in ds) { exs().push({nom:'', dosage:'', consigne:''}); }
+  else if ('rm' in ds) { exs().splice(Number(ds.rm), 1); }
+  else if ('mv' in ds) { const i = Number(ds.mv), j = i + Number(ds.d), a = exs(); if (j >= 0 && j < a.length) [a[i], a[j]] = [a[j], a[i]]; }
+  else if ('delr' in ds) {
+    if (ds.delr === '0') { e.confirmDel = true; }
+    else { b.disabled = true; try { const before = ROUT[e.id] || null; await DB.collection('routines').doc(e.id).delete(); await logChange(e.id, before, null); EDIT = null; renderExos(); } catch(err){ edMsg(err); b.disabled = false; } return; }
+  }
+  else if ('save' in ds) {
+    Object.values(r.niveaux).forEach(l => { l.exercices = (l.exercices||[]).filter(x => String(x.nom||'').trim()); });
+    if (!String(r.nom||'').trim()) { $('edmsg').textContent = 'Donne un nom à la routine.'; return; }
+    if (r.match) { try { new RegExp(r.match,'i'); } catch(err){ $('edmsg').textContent = 'Le réglage avancé contient une expression invalide.'; return; } }
+    r.maj = new Date().toISOString(); r.majPar = 'RAfu';
+    b.disabled = true; $('edmsg').textContent = 'Enregistrement…';
+    try { const before = ROUT[e.id] || null; await DB.collection('routines').doc(e.id).set(clone(r)); await logChange(e.id, before, r); EDIT = null; renderExos(); $('dbstate').textContent = 'Enregistré. ' + dbStateText(); }
+    catch(err){ edMsg(err); b.disabled = false; }
+    return;
+  }
+  else return;
+  renderEditor();
+});
+function edMsg(err){
+  const m = $('edmsg'); if (!m) return; m.className = 'state err';
+  m.textContent = err && err.code === 'invalid_argument' ? "Ce compte ne peut pas modifier la base." : err && err.code === 'quota_exceeded' ? 'La base est pleine.' : "L'enregistrement n'a pas marché. Réessaie dans un instant.";
+  if (err && err.code === 'invalid_argument') { CANWRITE = false; }
+}
+async function logChange(id, before, after){
+  try { await DB.collection('historique').add({routine:id, nom:(after||before||{}).nom || id, date:new Date().toISOString(), avant:before, apres:after}); } catch(e){}
+}
+
+// ---------- Views and shared click handling
+const VIEWS = ['jour','semaine','exercices'];
+function show(v){
+  if (!VIEWS.includes(v)) v = 'jour';
+  VIEWS.forEach(x => { $('v-'+x).hidden = x !== v; });
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.v === v)));
+  try { if (location.hash.slice(1) !== v) history.replaceState(null, '', '#'+v); } catch(e){}
+}
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => { show(b.dataset.v); window.scrollTo(0,0); });
+window.addEventListener('hashchange', () => show(location.hash.slice(1)));
+document.addEventListener('click', ev => {
+  const b = ev.target.closest('[data-r],[data-c],[data-close],[data-goday],[data-edit]'); if (!b) return;
+  if (b.closest('#exos') && EDIT) return;
+  if (b.dataset.edit !== undefined) return startEdit(b.dataset.edit, b.dataset.l);
+  if (b.dataset.close !== undefined) return sheetClose();
+  if (b.dataset.goday) { sheetClose(); show('jour'); go(b.dataset.goday); window.scrollTo(0,0); return; }
+  if (b.dataset.r) return openRoutine(b.dataset.r, b.dataset.l);
+  if (b.dataset.c) return openDayPreview(b.dataset.c);
+});
+function rerenderRoutines(){ render(); renderExos(); }
+(async () => {
+  renderExos();
+  if (typeof window.claude === 'undefined' || !window.claude || typeof window.claude.use !== 'function') return;
+  let db = null; try { db = await window.claude.use('db'); } catch(e){ db = null; }
+  if (!db) { DBSTATE = 'off'; renderExos(); return; }
+  DB = db; DBSTATE = 'loading'; renderExos();
+  try { const u = await window.claude.use('user'); const c = u ? await u.can('data.write') : null; CANWRITE = c !== false; } catch(e){ CANWRITE = true; }
+  let timer = setTimeout(() => { if (DBSTATE === 'loading') { DBSTATE = 'slow'; renderExos(); } }, 10000);
+  db.collection('routines').onSnapshot(snap => {
+    if (snap.metadata.fromCache && snap.empty) return;
+    if (!snap.metadata.fromCache) { clearTimeout(timer); DBSTATE = 'live'; }
+    else if (DBSTATE === 'loading') DBSTATE = 'slow';
+    const o = {}; snap.docs.forEach(d => { o[d.id] = d.data(); });
+    ROUT = snap.empty ? (EMBED_ROUT || {}) : o;
+    rerenderRoutines();
+  }, err => { clearTimeout(timer); DBSTATE = 'err'; renderExos(); });
+})();
 
 // ---------- Import a newer Excel on this device
 $('file').addEventListener('change', async e => {
@@ -476,5 +813,5 @@ $('reset').onclick = () => {
   $('msg').textContent = 'Retour à la version publiée du plan.';
 };
 
-index(); renderSaison(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render();
+index(); renderSaison(); renderCoach(); renderTests(); renderAdapt(); renderFooter(); render(); show(location.hash.slice(1));
 </script>

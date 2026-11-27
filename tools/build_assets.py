@@ -34,7 +34,8 @@ sheets = {n: [[cell(v) for v in r] for r in wb[n].iter_rows(values_only=True)]
           for n in ['Coach', 'Saison', 'Calendrier', 'Séances', 'Mobilité', 'Vacances & imprévus', 'Tests'] if n in wb.sheetnames}
 data = json.dumps({'sheets': sheets, 'source': 'Planning_Ooty_2027.xlsx', 'updated': today}, ensure_ascii=False, separators=(',', ':'))
 tpl = open(os.path.join(ROOT, 'tools', 'template.html')).read()
-page = tpl.replace('/*DATA*/null/*END*/', '/*DATA*/' + data + '/*END*/')
+rout = json.dumps(json.load(open(os.path.join(ROOT, 'tools', 'routines.json'))), ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
+page = tpl.replace('/*DATA*/null/*END*/', '/*DATA*/' + data + '/*END*/').replace('/*ROUT*/null/*ENDR*/', '/*ROUT*/' + rout + '/*ENDR*/')
 head = ('<!doctype html><html lang="fr"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
         '<style>footer .actions{display:none}</style></head><body>')
