@@ -414,7 +414,7 @@ function parseSheets(sheets, source, updated){
     if (i===0 && single) { coach.title = r[0]; return; }
     if (single && next && !next.slice(1).every(empty)) { cs = {title:r[0], items:[], notes:[]}; coach.sections.push(cs); return; }
     if (single) { (cs ? cs.notes : coach.intro).push(r[0]); return; }
-    if (cs && !cs.header && (r[0]==='Quoi' || r[0]==='Jour')) { cs.header = r; return; }
+    if (cs && !cs.header && (r[0]==='Quoi' || r[0]==='Jour' || r[0]==='Période')) { cs.header = r; return; }
     if (cs) cs.items.push(r.slice(0,3));
   });
   // Tests: the row starting with 'Test' is the header, the rows below are results
