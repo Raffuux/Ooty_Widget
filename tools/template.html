@@ -474,8 +474,16 @@ function coachMobility(){
   const daily = coachSec(/tous les jours/i);
   return daily ? daily.items.find(i => /^mobilit/i.test(String(i[0]))) : null;
 }
+function crossBlocks(text){
+  // Cross-training codes (S1, E2, N1...) explained in the Coach tab
+  const sec = coachSec(/^cross-training/i); if (!sec) return '';
+  const codes = [...new Set((String(text||'').match(/\b[SEN][1-9]\b/g) || []))];
+  return codes.map(c => sec.items.find(i => new RegExp('^' + c + '\\b').test(String(i[0])))).filter(Boolean)
+    .map(i => `<details class="how"><summary>${esc(i[0])}</summary><div class="body"><p>${esc(i[1] ?? '')}</p>${i[2] ? `<p class="why">${esc(i[2])}</p>` : ''}</div></details>`).join('');
+}
 function howBlock(text, field){
   let pre = '';
+  if (field === 'kick') { const cb = crossBlocks(text); if (cb) return cb; }
   if (field === 'salle' || field === 'routine') {
     const rs = routMatch(text);
     if (rs.length) return `<div class="rchips">${rs.map(rchip).join('')}</div>`;
@@ -679,7 +687,7 @@ function openDayPreview(ds){
   const t = d.type || 'Repos course', rest = /^Repos/.test(t);
   const lines = [];
   if (d.event) lines.push(`<div class="row event"><div class="lbl">Événement</div><div class="val"><div class="txt">${esc(d.event)}</div></div></div>`);
-  if (d.kick) lines.push(`<div class="row"><div class="lbl">${/kick|boxe/i.test(d.kick) ? 'Kickboxing' : 'Autre sport'}</div><div class="val"><div class="txt${isRestText(d.kick)?' empty':''}">${esc(d.kick)}</div></div></div>`);
+  if (d.kick) lines.push(`<div class="row"><div class="lbl">${/kick|boxe/i.test(d.kick) ? 'Kickboxing' : 'Autre sport'}</div><div class="val"><div class="txt${isRestText(d.kick)?' empty':''}">${esc(d.kick)}</div>${isRestText(d.kick) ? '' : crossBlocks(d.kick)}</div></div>`);
   if (d.salle) lines.push(`<div class="row"><div class="lbl">Salle</div><div class="val"><div class="txt">${esc(d.salle)}</div>${howBlock(d.salle,'salle')}</div></div>`);
   if (d.routine) lines.push(`<div class="row"><div class="lbl">Routine</div><div class="val"><div class="txt">${esc(d.routine)}</div>${howBlock(d.routine,'routine')}</div></div>`);
   const lib = rest ? [] : findLib(d.course, 'course');
@@ -830,9 +838,9 @@ function acts(d){
   }
   if (/marche rapide|marche en mont|tapis.*1[0-5] ?%/i.test(all)) add('walk');
   if (/v[ée]lo|ellipti|spinning/i.test(all)) add('bike');
-  if (/natation|nage|piscine/i.test(all)) add('swim');
+  if (/natation|nage|piscine|aquajog/i.test(all)) add('swim');
   if (/surf/i.test(all)) add('surf');
-  if (d.kick && !isRestText(d.kick)) { if (/boxe|kick/i.test(d.kick)) add('box'); else if (!/natation|nage|surf|v[ée]lo|ellipti|kin[ée]|mfr|massage|ost[ée]o/i.test(d.kick)) add('other'); }
+  if (d.kick && !isRestText(d.kick)) { if (/boxe|kick/i.test(d.kick)) add('box'); else if (!/natation|nage|aquajog|spinning|surf|v[ée]lo|ellipti|kin[ée]|mfr|massage|ost[ée]o/i.test(d.kick)) add('other'); }
   if (d.salle && !/^pas de salle/i.test(d.salle)) add('gym');
   if (/tibia|soir a\b|soir b\b|mollet|bassin|hanche|renfo|short foot/i.test((d.routine||'') + ' ' + (/salle|muscu/i.test(d.salle||'') ? '' : ''))) add('renfo');
   if (/mobilit|[ée]tirement|souplesse/i.test(d.routine||'')) add('mob');
