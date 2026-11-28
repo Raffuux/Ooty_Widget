@@ -458,34 +458,34 @@
     ]
    },
    "2": {
-    "titre": "Bloc quotidien renforcé",
+    "titre": "Rotation interne active",
     "duree": "8'",
-    "quand": "Quand le niveau 1 se fait sans gêne",
+    "quand": "Quand le niveau 1 passe 2 semaines sans pincement (note hanche ≤ 2)",
     "exercices": [
      {
-      "nom": "Bascules de bassin à quatre pattes (rockers)",
+      "nom": "Rockers à 4 pattes",
       "dosage": "1'",
-      "consigne": ""
+      "consigne": "Jusqu’au pincement, jamais dedans."
      },
      {
-      "nom": "Rotation interne isométrique",
-      "dosage": "5×10 s/côté, +2 à gauche",
-      "consigne": ""
+      "nom": "Rotation interne assise à l’élastique",
+      "dosage": "3×10/côté, +2 à gauche",
+      "consigne": "Assis, élastique au-dessus du genou ou à la cheville, le pied part vers l’extérieur. Lent, sans pincement."
+     },
+     {
+      "nom": "Genou au sol, pied arrière qui monte sur le côté",
+      "dosage": "2×8/côté, lent",
+      "consigne": "Un bâton pour l’équilibre, bassin immobile, monte le pied arrière vers l’extérieur et redescends en 3 s."
+     },
+     {
+      "nom": "Couché sur le côté, genou sur un bloc, pied lesté qui monte",
+      "dosage": "2×10/côté",
+      "consigne": "Genou du dessus posé sur 1-2 blocs, lest à la cheville : le pied monte vers le plafond (rotation interne). Assouplit l’arrière de la capsule."
      },
      {
       "nom": "90/90 décollés",
       "dosage": "3×5/côté",
-      "consigne": ""
-     },
-     {
-      "nom": "Ours tenu (genoux à 2 cm du sol)",
-      "dosage": "3×20 s",
-      "consigne": "Dos plat."
-     },
-     {
-      "nom": "Squat hanches en arrière, lent",
-      "dosage": "2×8",
-      "consigne": "Descends en reculant les hanches, genoux stables."
+      "consigne": "Buste droit."
      }
     ]
    },
@@ -517,7 +517,7 @@
     ]
    }
   },
-  "maj": "2026-11-27",
+  "maj": "2026-11-28",
   "majPar": "Claude"
  },
  "salle-a": {
@@ -587,6 +587,11 @@
       "consigne": ""
      },
      {
+      "nom": "Soulevé de terre jambe décalée (B-stance), kettlebell",
+      "dosage": "3×8/côté",
+      "consigne": "Pied arrière sur la pointe juste pour l’équilibre, poids sur la jambe avant, hanches vers l’arrière, sans pincement devant."
+     },
+     {
       "nom": "Step-down lent sur box (descente 3 s)",
       "dosage": "3×8/côté",
       "consigne": "Les descentes d'Ooty."
@@ -624,6 +629,11 @@
       "consigne": ""
      },
      {
+      "nom": "Soulevé de terre jambe décalée (B-stance), kettlebell",
+      "dosage": "3×8/côté",
+      "consigne": "Pied arrière sur la pointe juste pour l’équilibre, poids sur la jambe avant, hanches vers l’arrière, sans pincement devant."
+     },
+     {
       "nom": "Soulevé de terre roumain 1 jambe",
       "dosage": "3×8/côté",
       "consigne": ""
@@ -646,7 +656,7 @@
     ]
    }
   },
-  "maj": "2026-11-27",
+  "maj": "2026-11-28",
   "majPar": "Claude"
  },
  "salle-b": {
